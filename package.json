@@ -1,0 +1,43 @@
+{
+  "name": "ddd-electrical-distribution-network-budgeting",
+  "version": "1.0.0",
+  "description": "Domain for generating material budgets in distribution networks",
+  "author": "Max Gambarini Filho",
+  "scripts": {
+    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:cov": "vitest run --coverage"
+
+  },
+  "keywords": [],
+  "license": "ISC",
+
+  "dependencies": {
+  },
+  "devDependencies": {
+    "@eslint/config-helpers": "^0.2.1",
+    "@eslint/eslintrc": "^3.2.0",
+    "@eslint/js": "^9.23.0",
+    "@faker-js/faker": "^9.7.0",
+    "@swc/cli": "^0.6.0",
+    "@swc/core": "^1.11.16",
+    "@types/multer": "^1.4.12",
+    "@types/node": "^22.10.7",
+    "@vitest/coverage-v8": "^3.1.2",
+    "dotenv": "^16.5.0",
+    "eslint": "^9.24.0",
+    "eslint-config-prettier": "^10.1.2",
+    "eslint-plugin-prettier": "^5.2.6",
+    "globals": "^16.0.0",
+    "source-map-support": "^0.5.21",
+    "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.8.2",
+    "typescript-eslint": "^8.29.0",
+    "unplugin-swc": "^1.5.2",
+    "vite-tsconfig-paths": "^5.1.4",
+    "vitest": "^3.1.2"
+  }
+}
