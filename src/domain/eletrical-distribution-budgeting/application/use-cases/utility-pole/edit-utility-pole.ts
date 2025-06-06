@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { Either, left, right } from "src/core/either";
-import { NegativeScrewLengthError } from "src/core/errors/erros-eletrical-distribution-budgeting/negative-screw-enum-error";
+import { NegativeScrewLengthError } from "src/core/errors/erros-eletrical-distribution-budgeting/negative-screw-length-error";
 import { AlreadyRegisteredError } from "src/core/errors/generics/already-registered-error";
 import { NotAllowedError } from "src/core/errors/generics/not-allowed-error";
 import { ResourceNotFoundError } from "src/core/errors/generics/resource-not-found-error";
@@ -14,12 +14,12 @@ interface EditUtilityPoleUseCaseRequest {
   strongSideSectionMultiplier?: number;
 
   mediumVoltageLevelsCount?: number;
-  mediumVoltageStartSectionLengthInCm?: number;
-  mediumVoltageSectionLengthAddBylevelInCm?: number;
+  mediumVoltageStartSectionLengthInMM?: number;
+  mediumVoltageSectionLengthAddBylevelInMM?: number;
 
   lowVoltageLevelsCount?: number;
-  lowVoltageStartSectionLengthInCm?: number;
-  lowVoltageSectionLengthAddBylevelInCm?: number;
+  lowVoltageStartSectionLengthInMM?: number;
+  lowVoltageSectionLengthAddBylevelInMM?: number;
 }
 
 type EditUtilityPoleUseCaseResponse = Either<
@@ -57,11 +57,11 @@ export class EditUtilityPoleUseCase {
       description,
       strongSideSectionMultiplier,
       mediumVoltageLevelsCount,
-      mediumVoltageStartSectionLengthInCm,
-      mediumVoltageSectionLengthAddBylevelInCm,
+      mediumVoltageStartSectionLengthInMM,
+      mediumVoltageSectionLengthAddBylevelInMM,
       lowVoltageLevelsCount,
-      lowVoltageStartSectionLengthInCm,
-      lowVoltageSectionLengthAddBylevelInCm,
+      lowVoltageStartSectionLengthInMM,
+      lowVoltageSectionLengthAddBylevelInMM,
     } = editUtilityPoleUseCaseRequest;
 
     const utilityPoleToEdit =
@@ -95,21 +95,21 @@ export class EditUtilityPoleUseCase {
       hasToEdit = true;
     }
     if (
-      mediumVoltageStartSectionLengthInCm &&
-      mediumVoltageStartSectionLengthInCm !==
-        utilityPoleToEdit.mediumVoltageStartSectionLengthInCm
+      mediumVoltageStartSectionLengthInMM &&
+      mediumVoltageStartSectionLengthInMM !==
+        utilityPoleToEdit.mediumVoltageStartSectionLengthInMM
     ) {
-      utilityPoleToEdit.mediumVoltageStartSectionLengthInCm =
-        mediumVoltageStartSectionLengthInCm;
+      utilityPoleToEdit.mediumVoltageStartSectionLengthInMM =
+        mediumVoltageStartSectionLengthInMM;
       hasToEdit = true;
     }
     if (
-      mediumVoltageSectionLengthAddBylevelInCm &&
-      mediumVoltageSectionLengthAddBylevelInCm !==
-        utilityPoleToEdit.mediumVoltageSectionLengthAddBylevelInCm
+      mediumVoltageSectionLengthAddBylevelInMM &&
+      mediumVoltageSectionLengthAddBylevelInMM !==
+        utilityPoleToEdit.mediumVoltageSectionLengthAddBylevelInMM
     ) {
-      utilityPoleToEdit.mediumVoltageSectionLengthAddBylevelInCm =
-        mediumVoltageSectionLengthAddBylevelInCm;
+      utilityPoleToEdit.mediumVoltageSectionLengthAddBylevelInMM =
+        mediumVoltageSectionLengthAddBylevelInMM;
       hasToEdit = true;
     }
     if (
@@ -120,21 +120,21 @@ export class EditUtilityPoleUseCase {
       hasToEdit = true;
     }
     if (
-      lowVoltageStartSectionLengthInCm &&
-      lowVoltageStartSectionLengthInCm !==
-        utilityPoleToEdit.lowVoltageStartSectionLengthInCm
+      lowVoltageStartSectionLengthInMM &&
+      lowVoltageStartSectionLengthInMM !==
+        utilityPoleToEdit.lowVoltageStartSectionLengthInMM
     ) {
-      utilityPoleToEdit.lowVoltageStartSectionLengthInCm =
-        lowVoltageStartSectionLengthInCm;
+      utilityPoleToEdit.lowVoltageStartSectionLengthInMM =
+        lowVoltageStartSectionLengthInMM;
       hasToEdit = true;
     }
     if (
-      lowVoltageSectionLengthAddBylevelInCm &&
-      lowVoltageSectionLengthAddBylevelInCm !==
-        utilityPoleToEdit.lowVoltageSectionLengthAddBylevelInCm
+      lowVoltageSectionLengthAddBylevelInMM &&
+      lowVoltageSectionLengthAddBylevelInMM !==
+        utilityPoleToEdit.lowVoltageSectionLengthAddBylevelInMM
     ) {
-      utilityPoleToEdit.lowVoltageSectionLengthAddBylevelInCm =
-        lowVoltageSectionLengthAddBylevelInCm;
+      utilityPoleToEdit.lowVoltageSectionLengthAddBylevelInMM =
+        lowVoltageSectionLengthAddBylevelInMM;
       hasToEdit = true;
     }
 

@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { Either, right } from "src/core/either";
-import { NegativeScrewLengthError } from "src/core/errors/erros-eletrical-distribution-budgeting/negative-screw-enum-error";
+import { NegativeScrewLengthError } from "src/core/errors/erros-eletrical-distribution-budgeting/negative-screw-length-error";
 import { AlreadyRegisteredError } from "src/core/errors/generics/already-registered-error";
 import { PoleScrew } from "src/domain/eletrical-distribution-budgeting/enterprise/entities/pole-screw";
 import { PoleScrewsRepository } from "../../repositories/pole-screws-repository";
@@ -9,7 +9,7 @@ interface CreateOnePoleScrewUseCaseDTO {
   code: number;
   description: string;
 
-  lengthInCm: number;
+  lengthInMM: number;
 }
 
 interface CreateBulkOfPoleScrewsUseCaseRequest {
@@ -45,7 +45,7 @@ export class CreateBulkOfPoleScrewsUseCase {
     );
 
     for (const poleScrewToCreate of poleScrewsToCreate) {
-      if (poleScrewToCreate.lengthInCm <= 0) {
+      if (poleScrewToCreate.lengthInMM <= 0) {
         failed.push({
           error: new NegativeScrewLengthError(
             "Pole Screw length must be greater than zero",
@@ -54,7 +54,7 @@ export class CreateBulkOfPoleScrewsUseCase {
         });
         continue;
       }
-      const { code, description, lengthInCm } = poleScrewToCreate;
+      const { code, description, lengthInMM } = poleScrewToCreate;
       if (actualCodesInRepository.has(code)) {
         failed.push({
           error: new AlreadyRegisteredError(
@@ -67,7 +67,7 @@ export class CreateBulkOfPoleScrewsUseCase {
       const poleScrew = PoleScrew.create({
         code,
         description: description.toUpperCase(),
-        lengthInCm,
+        lengthInMM,
       });
       created.push(poleScrew);
       actualCodesInRepository.add(code);

@@ -7,8 +7,8 @@ import { PoleScrew } from "../../enterprise/entities/pole-screw";
 export interface FetchPoleScrewsWithFilterOptions {
   codes?: number[];
   description?: string;
-  minLengthInCm?: number;
-  maxLengthInCm?: number;
+  minLengthInMM?: number;
+  maxLengthInMM?: number;
 }
 
 export abstract class PoleScrewsRepository {

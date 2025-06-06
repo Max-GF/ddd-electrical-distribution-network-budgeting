@@ -7,8 +7,8 @@ interface FetchWithFilterPoleScrewUseCaseRequest {
   codes?: number[];
   description?: string;
 
-  minLengthInCm?: number;
-  maxLengthInCm?: number;
+  minLengthInMM?: number;
+  maxLengthInMM?: number;
 
   page?: number;
   perPage?: number;
@@ -28,8 +28,8 @@ export class FetchWithFilterPoleScrewUseCase {
   async execute({
     codes,
     description,
-    minLengthInCm,
-    maxLengthInCm,
+    minLengthInMM,
+    maxLengthInMM,
     page,
     perPage,
   }: FetchWithFilterPoleScrewUseCaseRequest): Promise<FetchWithFilterPoleScrewUseCaseResponse> {
@@ -38,8 +38,8 @@ export class FetchWithFilterPoleScrewUseCase {
         {
           codes,
           description,
-          minLengthInCm,
-          maxLengthInCm,
+          minLengthInMM,
+          maxLengthInMM,
         },
         {
           page: page ?? 1,

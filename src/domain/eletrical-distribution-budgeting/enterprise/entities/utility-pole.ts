@@ -8,12 +8,12 @@ export interface UtilityPoleProps {
   strongSideSectionMultiplier: number;
 
   mediumVoltageLevelsCount: number;
-  mediumVoltageStartSectionLengthInCm: number;
-  mediumVoltageSectionLengthAddBylevelInCm: number;
+  mediumVoltageStartSectionLengthInMM: number;
+  mediumVoltageSectionLengthAddBylevelInMM: number;
 
   lowVoltageLevelsCount: number;
-  lowVoltageStartSectionLengthInCm: number;
-  lowVoltageSectionLengthAddBylevelInCm: number;
+  lowVoltageStartSectionLengthInMM: number;
+  lowVoltageSectionLengthAddBylevelInMM: number;
 }
 
 export class UtilityPole extends Entity<UtilityPoleProps> {
@@ -42,23 +42,23 @@ export class UtilityPole extends Entity<UtilityPoleProps> {
   set mediumVoltageLevelsCount(mediumVoltageLevelsCount: number) {
     this.props.mediumVoltageLevelsCount = mediumVoltageLevelsCount;
   }
-  get mediumVoltageStartSectionLengthInCm(): number {
-    return this.props.mediumVoltageStartSectionLengthInCm;
+  get mediumVoltageStartSectionLengthInMM(): number {
+    return this.props.mediumVoltageStartSectionLengthInMM;
   }
-  set mediumVoltageStartSectionLengthInCm(
-    mediumVoltageStartSectionLengthInCm: number,
+  set mediumVoltageStartSectionLengthInMM(
+    mediumVoltageStartSectionLengthInMM: number,
   ) {
-    this.props.mediumVoltageStartSectionLengthInCm =
-      mediumVoltageStartSectionLengthInCm;
+    this.props.mediumVoltageStartSectionLengthInMM =
+      mediumVoltageStartSectionLengthInMM;
   }
-  get mediumVoltageSectionLengthAddBylevelInCm(): number {
-    return this.props.mediumVoltageSectionLengthAddBylevelInCm;
+  get mediumVoltageSectionLengthAddBylevelInMM(): number {
+    return this.props.mediumVoltageSectionLengthAddBylevelInMM;
   }
-  set mediumVoltageSectionLengthAddBylevelInCm(
-    mediumVoltageSectionLengthAddBylevelInCm: number,
+  set mediumVoltageSectionLengthAddBylevelInMM(
+    mediumVoltageSectionLengthAddBylevelInMM: number,
   ) {
-    this.props.mediumVoltageSectionLengthAddBylevelInCm =
-      mediumVoltageSectionLengthAddBylevelInCm;
+    this.props.mediumVoltageSectionLengthAddBylevelInMM =
+      mediumVoltageSectionLengthAddBylevelInMM;
   }
   get lowVoltageLevelsCount(): number {
     return this.props.lowVoltageLevelsCount;
@@ -66,22 +66,22 @@ export class UtilityPole extends Entity<UtilityPoleProps> {
   set lowVoltageLevelsCount(lowVoltageLevelsCount: number) {
     this.props.lowVoltageLevelsCount = lowVoltageLevelsCount;
   }
-  get lowVoltageStartSectionLengthInCm(): number {
-    return this.props.lowVoltageStartSectionLengthInCm;
+  get lowVoltageStartSectionLengthInMM(): number {
+    return this.props.lowVoltageStartSectionLengthInMM;
   }
-  set lowVoltageStartSectionLengthInCm(
-    lowVoltageStartSectionLengthInCm: number,
+  set lowVoltageStartSectionLengthInMM(
+    lowVoltageStartSectionLengthInMM: number,
   ) {
-    this.props.lowVoltageStartSectionLengthInCm =
-      lowVoltageStartSectionLengthInCm;
+    this.props.lowVoltageStartSectionLengthInMM =
+      lowVoltageStartSectionLengthInMM;
   }
-  get lowVoltageSectionLengthAddBylevelInCm(): number {
-    return this.props.lowVoltageSectionLengthAddBylevelInCm;
+  get lowVoltageSectionLengthAddBylevelInMM(): number {
+    return this.props.lowVoltageSectionLengthAddBylevelInMM;
   }
-  set lowVoltageSectionLengthAddBylevelInCm(
-    lowVoltageSectionLengthAddBylevelInCm: number,
+  set lowVoltageSectionLengthAddBylevelInMM(
+    lowVoltageSectionLengthAddBylevelInMM: number,
   ) {
-    this.props.lowVoltageSectionLengthAddBylevelInCm =
-      lowVoltageSectionLengthAddBylevelInCm;
+    this.props.lowVoltageSectionLengthAddBylevelInMM =
+      lowVoltageSectionLengthAddBylevelInMM;
   }
 }

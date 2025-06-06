@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { Either, left, right } from "src/core/either";
-import { NegativeScrewLengthError } from "src/core/errors/erros-eletrical-distribution-budgeting/negative-screw-enum-error";
+import { NegativeScrewLengthError } from "src/core/errors/erros-eletrical-distribution-budgeting/negative-screw-length-error";
 import { AlreadyRegisteredError } from "src/core/errors/generics/already-registered-error";
 import { UtilityPole } from "src/domain/eletrical-distribution-budgeting/enterprise/entities/utility-pole";
 import { UtilityPolesRepository } from "../../repositories/utility-poles-repository";
@@ -12,12 +12,12 @@ interface CreateUtilityPoleUseCaseRequest {
   strongSideSectionMultiplier: number;
 
   mediumVoltageLevelsCount: number;
-  mediumVoltageStartSectionLengthInCm: number;
-  mediumVoltageSectionLengthAddBylevelInCm: number;
+  mediumVoltageStartSectionLengthInMM: number;
+  mediumVoltageSectionLengthAddBylevelInMM: number;
 
   lowVoltageLevelsCount: number;
-  lowVoltageStartSectionLengthInCm: number;
-  lowVoltageSectionLengthAddBylevelInCm: number;
+  lowVoltageStartSectionLengthInMM: number;
+  lowVoltageSectionLengthAddBylevelInMM: number;
 }
 
 type CreateUtilityPoleUseCaseResponse = Either<

@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { Either, left, right } from "src/core/either";
-import { NegativeScrewLengthError } from "src/core/errors/erros-eletrical-distribution-budgeting/negative-screw-enum-error";
+import { NegativeScrewLengthError } from "src/core/errors/erros-eletrical-distribution-budgeting/negative-screw-length-error";
 import { AlreadyRegisteredError } from "src/core/errors/generics/already-registered-error";
 import { NotAllowedError } from "src/core/errors/generics/not-allowed-error";
 import { ResourceNotFoundError } from "src/core/errors/generics/resource-not-found-error";
@@ -11,7 +11,7 @@ interface EditPoleScrewUseCaseRequest {
   poleScrewId: string;
   description?: string;
 
-  lengthInCm?: number;
+  lengthInMM?: number;
 }
 
 type EditPoleScrewUseCaseResponse = Either<
@@ -37,10 +37,10 @@ export class EditPoleScrewUseCase {
       return left(new NotAllowedError("No entries provided"));
     }
 
-    const { poleScrewId, description, lengthInCm } =
+    const { poleScrewId, description, lengthInMM } =
       editPoleScrewUseCaseRequest;
 
-    if (lengthInCm && lengthInCm <= 0) {
+    if (lengthInMM && lengthInMM <= 0) {
       return left(
         new NegativeScrewLengthError("Length must be greater than zero"),
       );
@@ -57,8 +57,8 @@ export class EditPoleScrewUseCase {
       poleScrewToEdit.description = description.toUpperCase();
       hasToEdit = true;
     }
-    if (lengthInCm && lengthInCm !== poleScrewToEdit.lengthInCm) {
-      poleScrewToEdit.lengthInCm = lengthInCm;
+    if (lengthInMM && lengthInMM !== poleScrewToEdit.lengthInMM) {
+      poleScrewToEdit.lengthInMM = lengthInMM;
       hasToEdit = true;
     }
 

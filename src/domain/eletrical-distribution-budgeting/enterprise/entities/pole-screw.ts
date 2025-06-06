@@ -5,7 +5,7 @@ export interface PoleScrewProps {
   code: number;
   description: string;
 
-  lengthInCm: number;
+  lengthInMM: number;
 }
 
 export class PoleScrew extends Entity<PoleScrewProps> {
@@ -22,10 +22,10 @@ export class PoleScrew extends Entity<PoleScrewProps> {
   set description(description: string) {
     this.props.description = description;
   }
-  get lengthInCm(): number {
-    return this.props.lengthInCm;
+  get lengthInMM(): number {
+    return this.props.lengthInMM;
   }
-  set lengthInCm(lengthInCm: number) {
-    this.props.lengthInCm = lengthInCm;
+  set lengthInMM(lengthInMM: number) {
+    this.props.lengthInMM = lengthInMM;
   }
 }
