@@ -1,6 +1,6 @@
 import { UseCaseError } from "src/core/errors/use-case-error";
 
-export class NegativeScrewEnumError extends Error implements UseCaseError {
+export class NegativeScrewLengthError extends Error implements UseCaseError {
   constructor(errorText?: string) {
     super(errorText ?? "Negative values are not allowed for screw enum.");
   }

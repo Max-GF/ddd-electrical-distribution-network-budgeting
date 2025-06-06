@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { Either, left, right } from "src/core/either";
-import { NegativeScrewEnumError } from "src/core/errors/erros-eletrical-distribution-budgeting/negative-screw-enum-error";
+import { NegativeScrewLengthError } from "src/core/errors/erros-eletrical-distribution-budgeting/negative-screw-enum-error";
 import { AlreadyRegisteredError } from "src/core/errors/generics/already-registered-error";
 import { UtilityPole } from "src/domain/eletrical-distribution-budgeting/enterprise/entities/utility-pole";
 import { UtilityPolesRepository } from "../../repositories/utility-poles-repository";
@@ -21,7 +21,7 @@ interface CreateUtilityPoleUseCaseRequest {
 }
 
 type CreateUtilityPoleUseCaseResponse = Either<
-  AlreadyRegisteredError | NegativeScrewEnumError,
+  AlreadyRegisteredError | NegativeScrewLengthError,
   {
     utilityPole: UtilityPole;
   }
@@ -34,10 +34,10 @@ export class CreateUtilityPoleUseCase {
   async execute(
     createUtilityPoleUseCaseRequest: CreateUtilityPoleUseCaseRequest,
   ): Promise<CreateUtilityPoleUseCaseResponse> {
-    if (this.oneScrewEnumIsLessThanZero(createUtilityPoleUseCaseRequest)) {
+    if (this.oneLengthInfoIsLessThanZero(createUtilityPoleUseCaseRequest)) {
       return left(
-        new NegativeScrewEnumError(
-          "One or more screw enums are less than zero",
+        new NegativeScrewLengthError(
+          "One or more section length are less than zero",
         ),
       );
     }
@@ -61,7 +61,7 @@ export class CreateUtilityPoleUseCase {
       utilityPole,
     });
   }
-  oneScrewEnumIsLessThanZero(
+  oneLengthInfoIsLessThanZero(
     createUtilityPoleUseCaseRequest: CreateUtilityPoleUseCaseRequest,
   ): boolean {
     return Object.entries(createUtilityPoleUseCaseRequest)

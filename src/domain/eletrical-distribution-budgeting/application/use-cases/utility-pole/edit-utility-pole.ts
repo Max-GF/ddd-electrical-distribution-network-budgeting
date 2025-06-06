@@ -1,5 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { Either, left, right } from "src/core/either";
+import { NegativeScrewLengthError } from "src/core/errors/erros-eletrical-distribution-budgeting/negative-screw-enum-error";
 import { AlreadyRegisteredError } from "src/core/errors/generics/already-registered-error";
 import { NotAllowedError } from "src/core/errors/generics/not-allowed-error";
 import { ResourceNotFoundError } from "src/core/errors/generics/resource-not-found-error";
@@ -7,7 +8,7 @@ import { UtilityPole } from "src/domain/eletrical-distribution-budgeting/enterpr
 import { UtilityPolesRepository } from "../../repositories/utility-poles-repository";
 
 interface EditUtilityPoleUseCaseRequest {
-  utilityPodeId: string;
+  utilityPoleId: string;
   description?: string;
 
   strongSideSectionMultiplier?: number;
@@ -22,7 +23,10 @@ interface EditUtilityPoleUseCaseRequest {
 }
 
 type EditUtilityPoleUseCaseResponse = Either<
-  AlreadyRegisteredError | ResourceNotFoundError | NotAllowedError,
+  | AlreadyRegisteredError
+  | ResourceNotFoundError
+  | NotAllowedError
+  | NegativeScrewLengthError,
   {
     utilityPole: UtilityPole;
   }
@@ -40,14 +44,16 @@ export class EditUtilityPoleUseCase {
     if (this.noEntries(editUtilityPoleUseCaseRequest)) {
       return left(new NotAllowedError("No entries provided"));
     }
-    if (this.oneScrewEnumIsLessThanZero(editUtilityPoleUseCaseRequest)) {
+    if (this.oneLengthInfoIsLessThanZero(editUtilityPoleUseCaseRequest)) {
       return left(
-        new NotAllowedError("One or more screw enum values are less than zero"),
+        new NegativeScrewLengthError(
+          "One or more section length values are less than zero",
+        ),
       );
     }
 
     const {
-      utilityPodeId,
+      utilityPoleId,
       description,
       strongSideSectionMultiplier,
       mediumVoltageLevelsCount,
@@ -59,10 +65,12 @@ export class EditUtilityPoleUseCase {
     } = editUtilityPoleUseCaseRequest;
 
     const utilityPoleToEdit =
-      await this.utilityPolesRepository.findById(utilityPodeId);
+      await this.utilityPolesRepository.findById(utilityPoleId);
 
     if (!utilityPoleToEdit) {
-      return left(new ResourceNotFoundError("Given utility pole not found"));
+      return left(
+        new ResourceNotFoundError("Given utility pole was not found"),
+      );
     }
 
     if (description && description !== utilityPoleToEdit.description) {
@@ -142,14 +150,14 @@ export class EditUtilityPoleUseCase {
     editUtilityPoleUseCaseRequest: EditUtilityPoleUseCaseRequest,
   ): boolean {
     return Object.entries(editUtilityPoleUseCaseRequest)
-      .filter(([key]) => key !== "utilityPodeId")
+      .filter(([key]) => key !== "utilityPoleId")
       .every(([, value]) => value === undefined);
   }
-  oneScrewEnumIsLessThanZero(
+  oneLengthInfoIsLessThanZero(
     editUtilityPoleUseCaseRequest: EditUtilityPoleUseCaseRequest,
   ): boolean {
     return Object.entries(editUtilityPoleUseCaseRequest)
-      .filter(([key]) => key !== "utilityPodeId" && key !== "description")
+      .filter(([key]) => key !== "utilityPoleId" && key !== "description")
       .some(([, value]) => value < 0);
   }
 }
