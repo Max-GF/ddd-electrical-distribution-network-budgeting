@@ -72,9 +72,11 @@ export class EditUtilityPoleUseCase {
 
     if (
       strongSideSectionMultiplier &&
-      strongSideSectionMultiplier !== utilityPoleToEdit.strongSideSectionMultiplier
+      strongSideSectionMultiplier !==
+        utilityPoleToEdit.strongSideSectionMultiplier
     ) {
-      utilityPoleToEdit.strongSideSectionMultiplier = strongSideSectionMultiplier;
+      utilityPoleToEdit.strongSideSectionMultiplier =
+        strongSideSectionMultiplier;
       hasToEdit = true;
     }
     if (

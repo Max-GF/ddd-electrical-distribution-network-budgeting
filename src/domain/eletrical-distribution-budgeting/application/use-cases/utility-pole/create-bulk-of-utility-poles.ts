@@ -48,8 +48,9 @@ export class CreateBulkOfUtilityPolesUseCase {
     }
     const failed: FailedLog[] = [];
     const created: UtilityPole[] = [];
-    const actualCodesInRepository =
-      await this.utilityPolesRepository.findAllCodes();
+    const actualCodesInRepository = new Set(
+      await this.utilityPolesRepository.findAllCodes(),
+    );
 
     for (const utilityPoleToCreate of utilityPolesToCreate) {
       if (this.oneScrewEnumIsLessThanZero(utilityPoleToCreate)) {
@@ -62,7 +63,7 @@ export class CreateBulkOfUtilityPolesUseCase {
         continue;
       }
       const { code, description, ...othersProps } = utilityPoleToCreate;
-      if (actualCodesInRepository.includes(code)) {
+      if (actualCodesInRepository.has(code)) {
         failed.push({
           error: new AlreadyRegisteredError(
             "UtilityPole code already registered",
@@ -77,6 +78,7 @@ export class CreateBulkOfUtilityPolesUseCase {
         ...othersProps,
       });
       created.push(utilityPole);
+      actualCodesInRepository.add(code);
     }
     if (created.length === 0) {
       return right({ failed, created: [] });
