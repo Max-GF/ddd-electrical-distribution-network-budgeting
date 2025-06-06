@@ -34,7 +34,7 @@ export class FetchWithFilterUtilityPoleUseCase {
     page,
     perPage,
   }: FetchWithFilterUtilityPoleUseCaseRequest): Promise<FetchWithFilterUtilityPoleUseCaseResponse> {
-    const foundedUtilityPoles =
+    const { utilityPoles, pagination } =
       await this.utilityPolesRepository.fetchWithFilter(
         {
           codes,
@@ -48,7 +48,8 @@ export class FetchWithFilterUtilityPoleUseCase {
         },
       );
     return right({
-      utilityPoles: foundedUtilityPoles,
+      utilityPoles,
+      pagination,
     });
   }
 }

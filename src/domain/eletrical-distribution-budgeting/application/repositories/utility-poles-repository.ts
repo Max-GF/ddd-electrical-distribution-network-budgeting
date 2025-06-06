@@ -1,4 +1,7 @@
-import { PaginationParams } from "src/core/repositories/pagination-params";
+import {
+  PaginationParams,
+  PaginationResponseParams,
+} from "src/core/repositories/pagination-params";
 import { UtilityPole } from "../../enterprise/entities/utility-pole";
 
 export interface FetchWithFilterOptions {
@@ -17,5 +20,8 @@ export abstract class UtilityPolesRepository {
   abstract fetchWithFilter(
     filterOptions: FetchWithFilterOptions,
     paginationParams: PaginationParams,
-  ): Promise<UtilityPole[]>;
+  ): Promise<{
+    utilityPoles: UtilityPole[];
+    pagination: PaginationResponseParams;
+  }>;
 }
