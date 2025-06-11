@@ -4,20 +4,11 @@ import { NegativeScrewLengthError } from "src/core/errors/erros-eletrical-distri
 import { AlreadyRegisteredError } from "src/core/errors/generics/already-registered-error";
 import { PoleScrew } from "src/domain/eletrical-distribution-budgeting/enterprise/entities/pole-screw";
 import { PoleScrewsRepository } from "../../repositories/pole-screws-repository";
+import { CreatePoleScrewUseCaseRequest } from "./create-pole-screw";
 
-interface CreateOnePoleScrewUseCaseDTO {
-  code: number;
-  description: string;
-
-  lengthInMM: number;
-}
-
-interface CreateBulkOfPoleScrewsUseCaseRequest {
-  poleScrewsToCreate: CreateOnePoleScrewUseCaseDTO[];
-}
 interface FailedLog {
   error: AlreadyRegisteredError | NegativeScrewLengthError;
-  poleScrew: CreateOnePoleScrewUseCaseDTO;
+  poleScrew: CreatePoleScrewUseCaseRequest;
 }
 
 type CreateBulkOfPoleScrewsUseCaseResponse = Either<
@@ -32,9 +23,9 @@ type CreateBulkOfPoleScrewsUseCaseResponse = Either<
 export class CreateBulkOfPoleScrewsUseCase {
   constructor(private poleScrewsRepository: PoleScrewsRepository) {}
 
-  async execute({
-    poleScrewsToCreate,
-  }: CreateBulkOfPoleScrewsUseCaseRequest): Promise<CreateBulkOfPoleScrewsUseCaseResponse> {
+  async execute(
+    poleScrewsToCreate: CreatePoleScrewUseCaseRequest[],
+  ): Promise<CreateBulkOfPoleScrewsUseCaseResponse> {
     if (poleScrewsToCreate.length === 0) {
       return right({ failed: [], created: [] });
     }

@@ -39,7 +39,7 @@ export class FetchWithFilterPoleScrewUseCase {
       await this.poleScrewsRepository.fetchWithFilter(
         {
           codes,
-          description,
+          description: description?.toUpperCase(),
           minLengthInMM,
           maxLengthInMM,
         },

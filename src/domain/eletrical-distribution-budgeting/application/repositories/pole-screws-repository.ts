@@ -12,8 +12,8 @@ export interface FetchPoleScrewsWithFilterOptions {
 }
 
 export abstract class PoleScrewsRepository {
-  abstract createMany(bases: PoleScrew[]): Promise<void>;
-  abstract save(base: PoleScrew): Promise<void>;
+  abstract createMany(poleScrews: PoleScrew[]): Promise<void>;
+  abstract save(poleScrew: PoleScrew): Promise<void>;
   abstract findById(id: string): Promise<PoleScrew | null>;
   abstract findByCode(code: number): Promise<PoleScrew | null>;
   abstract findAllCodes(): Promise<number[]>;

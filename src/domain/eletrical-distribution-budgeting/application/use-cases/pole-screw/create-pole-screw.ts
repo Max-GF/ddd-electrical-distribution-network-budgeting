@@ -5,7 +5,7 @@ import { AlreadyRegisteredError } from "src/core/errors/generics/already-registe
 import { PoleScrew } from "src/domain/eletrical-distribution-budgeting/enterprise/entities/pole-screw";
 import { PoleScrewsRepository } from "../../repositories/pole-screws-repository";
 
-interface CreatePoleScrewUseCaseRequest {
+export interface CreatePoleScrewUseCaseRequest {
   code: number;
   description: string;
 
