@@ -1,5 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { Either, right } from "src/core/either";
+import { PaginationResponseParams } from "src/core/repositories/pagination-params";
 import { PoleScrew } from "src/domain/eletrical-distribution-budgeting/enterprise/entities/pole-screw";
 import { PoleScrewsRepository } from "../../repositories/pole-screws-repository";
 
@@ -18,6 +19,7 @@ type FetchWithFilterPoleScrewUseCaseResponse = Either<
   never,
   {
     poleScrews: PoleScrew[];
+    pagination: PaginationResponseParams;
   }
 >;
 

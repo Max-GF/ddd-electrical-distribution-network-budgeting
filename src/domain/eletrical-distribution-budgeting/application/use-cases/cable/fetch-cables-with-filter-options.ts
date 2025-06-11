@@ -1,6 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { Either, left, right } from "src/core/either";
 import { NotAllowedError } from "src/core/errors/generics/not-allowed-error";
+import { PaginationResponseParams } from "src/core/repositories/pagination-params";
 import { Cable } from "src/domain/eletrical-distribution-budgeting/enterprise/entities/cable";
 import { TensionLevel } from "src/domain/eletrical-distribution-budgeting/enterprise/entities/value-objects/tension-level";
 import { CablesRepository } from "../../repositories/cables-repository";
@@ -21,6 +22,7 @@ type FetchWithFilterCableUseCaseResponse = Either<
   NotAllowedError,
   {
     cables: Cable[];
+    pagination: PaginationResponseParams;
   }
 >;
 

@@ -3,14 +3,16 @@ import {
   PaginationResponseParams,
 } from "src/core/repositories/pagination-params";
 import { CableConnector } from "../../enterprise/entities/cable-connectors";
-import { TensionLevelEntries } from "../../enterprise/entities/value-objects/tension-level";
 
 export interface FetchCableConnectorsWithFilterOptions {
   codes?: number[];
   description?: string;
-  tension?: TensionLevelEntries;
-  maxSectionAreaInMM?: number;
-  minSectionAreaInMM?: number;
+
+  entranceMinValueMM?: number;
+  entranceMaxValueMM?: number;
+
+  exitMinValueMM?: number;
+  exitMaxValueMM?: number;
 }
 
 export abstract class CableConnectorsRepository {
@@ -23,7 +25,7 @@ export abstract class CableConnectorsRepository {
     filterOptions: FetchCableConnectorsWithFilterOptions,
     paginationParams: PaginationParams,
   ): Promise<{
-    cableconnectors: CableConnector[];
+    cableConnectors: CableConnector[];
     pagination: PaginationResponseParams;
   }>;
 }

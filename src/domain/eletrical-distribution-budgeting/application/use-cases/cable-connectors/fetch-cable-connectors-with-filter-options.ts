@@ -1,73 +1,82 @@
-// import { Injectable } from "@nestjs/common";
-// import { Either, left, right } from "src/core/either";
-// import { NotAllowedError } from "src/core/errors/generics/not-allowed-error";
-// import { CableConnector } from "src/domain/eletrical-distribution-budgeting/enterprise/entities/cable-connectors";
-// import { TensionLevel } from "src/domain/eletrical-distribution-budgeting/enterprise/entities/value-objects/tension-level";
-// import { CableConnectorsRepository } from "../../repositories/cable-connectors-repository";
+import { Injectable } from "@nestjs/common";
+import { Either, left, right } from "src/core/either";
+import { NotAllowedError } from "src/core/errors/generics/not-allowed-error";
+import { CableConnector } from "src/domain/eletrical-distribution-budgeting/enterprise/entities/cable-connectors";
+import { CableConnectorsRepository } from "../../repositories/cable-connectors-repository";
 
-// interface FetchWithFilterCableConnectorUseCaseRequest {
-//   codes?: number[];
-//   description?: string;
+interface FetchWithFilterCableConnectorUseCaseRequest {
+  codes?: number[];
+  description?: string;
 
-//   entranceMinValueMM?: number;
-//   entranceMaxValueMM?: number;
+  entranceMinValueMM?: number;
+  entranceMaxValueMM?: number;
 
-//   exitMinValueMM?: number;
-//   exitMaxValueMM?: number;
+  exitMinValueMM?: number;
+  exitMaxValueMM?: number;
 
-//   page?: number;
-//   perPage?: number;
-// }
+  page?: number;
+  perPage?: number;
+}
 
-// type FetchWithFilterCableConnectorUseCaseResponse = Either<
-//   NotAllowedError,
-//   {
-//     cables: CableConnector[];
-//   }
-// >;
+type FetchWithFilterCableConnectorUseCaseResponse = Either<
+  NotAllowedError,
+  {
+    cableConnectors: CableConnector[];
+    pagination: PaginationResponseParams;
+  }
+>;
 
-// @Injectable()
-// export class FetchWithFilterCableConnectorUseCase {
-//   constructor(private cablesRepository: CableConnectorsRepository) {}
+@Injectable()
+export class FetchWithFilterCableConnectorUseCase {
+  constructor(private cableConnectorsRepository: CableConnectorsRepository) {}
 
-//   async execute({
-//     codes,
-//     description,
-//     entranceMinValueMM,
-//     entranceMaxValueMM,
-//     exitMinValueMM,
-//     exitMaxValueMM,
-//     page,
-//     perPage,
-//   }: FetchWithFilterCableConnectorUseCaseRequest): Promise<FetchWithFilterCableConnectorUseCaseResponse> {
-//     const upperCasedTension = tension ? tension.toUpperCase() : undefined;
-//     if (
-//       upperCasedTension !== undefined &&
-//       !TensionLevel.isValid(upperCasedTension)
-//     ) {
-//       return left(
-//         new NotAllowedError(
-//           `Invalid tension level: ${tension}. Valid values are: ${TensionLevel.VALID_VALUES.join(", ")}.`,
-//         ),
-//       );
-//     }
-
-//     const { cables, pagination } = await this.cablesRepository.fetchWithFilter(
-//       {
-//         codes,
-//         description,
-//         tension: upperCasedTension,
-//         maxSectionAreaInMM,
-//         minSectionAreaInMM,
-//       },
-//       {
-//         page: page ?? 1,
-//         perPage: perPage ?? 40,
-//       },
-//     );
-//     return right({
-//       cables,
-//       pagination,
-//     });
-//   }
-// }
+  async execute(
+    fetchCableConnectorsFilterOptions: FetchWithFilterCableConnectorUseCaseRequest,
+  ): Promise<FetchWithFilterCableConnectorUseCaseResponse> {
+    if (this.oneLengthInfoIsLessThanZero(fetchCableConnectorsFilterOptions)) {
+      return left(
+        new NotAllowedError(
+          "Entrance and exit values must be greater than or equal to zero.",
+        ),
+      );
+    }
+    const {
+      codes,
+      description,
+      entranceMinValueMM,
+      entranceMaxValueMM,
+      exitMinValueMM,
+      exitMaxValueMM,
+      page,
+      perPage,
+    } = fetchCableConnectorsFilterOptions;
+    const { cableConnectors, pagination } =
+      await this.cableConnectorsRepository.fetchWithFilter(
+        {
+          codes,
+          description,
+          entranceMinValueMM,
+          entranceMaxValueMM,
+          exitMinValueMM,
+          exitMaxValueMM,
+        },
+        {
+          page: page ?? 1,
+          perPage: perPage ?? 40,
+        },
+      );
+    return right({
+      cableConnectors,
+      pagination,
+    });
+  }
+  oneLengthInfoIsLessThanZero(
+    fetchCableConnectorsFilterOptions: FetchWithFilterCableConnectorUseCaseRequest,
+  ): boolean {
+    return Object.entries(fetchCableConnectorsFilterOptions)
+      .filter(
+        ([key]) => !["page", "perPage", "codes", "description"].includes(key),
+      )
+      .some(([, value]) => value < 0);
+  }
+}

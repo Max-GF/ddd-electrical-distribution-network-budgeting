@@ -1,5 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { Either, right } from "src/core/either";
+import { PaginationResponseParams } from "src/core/repositories/pagination-params";
 import { UtilityPole } from "src/domain/eletrical-distribution-budgeting/enterprise/entities/utility-pole";
 import { UtilityPolesRepository } from "../../repositories/utility-poles-repository";
 
@@ -19,6 +20,7 @@ type FetchWithFilterUtilityPoleUseCaseResponse = Either<
   never,
   {
     utilityPoles: UtilityPole[];
+    pagination: PaginationResponseParams;
   }
 >;
 
