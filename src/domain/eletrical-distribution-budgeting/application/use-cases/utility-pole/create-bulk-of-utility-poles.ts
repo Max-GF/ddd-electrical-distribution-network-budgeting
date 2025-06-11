@@ -2,30 +2,14 @@ import { Injectable } from "@nestjs/common";
 import { Either, right } from "src/core/either";
 import { NegativeScrewLengthError } from "src/core/errors/erros-eletrical-distribution-budgeting/negative-screw-length-error";
 import { AlreadyRegisteredError } from "src/core/errors/generics/already-registered-error";
+import { NotAllowedError } from "src/core/errors/generics/not-allowed-error";
 import { UtilityPole } from "src/domain/eletrical-distribution-budgeting/enterprise/entities/utility-pole";
 import { UtilityPolesRepository } from "../../repositories/utility-poles-repository";
+import { CreateUtilityPoleUseCaseRequest } from "./create-utility-pole";
 
-interface CreateOneUtilityPoleUseCaseDTO {
-  code: number;
-  description: string;
-
-  strongSideSectionMultiplier: number;
-
-  mediumVoltageLevelsCount: number;
-  mediumVoltageStartSectionLengthInMM: number;
-  mediumVoltageSectionLengthAddBylevelInMM: number;
-
-  lowVoltageLevelsCount: number;
-  lowVoltageStartSectionLengthInMM: number;
-  lowVoltageSectionLengthAddBylevelInMM: number;
-}
-
-interface CreateBulkOfUtilityPolesUseCaseRequest {
-  utilityPolesToCreate: CreateOneUtilityPoleUseCaseDTO[];
-}
 interface FailedLog {
   error: AlreadyRegisteredError | NegativeScrewLengthError;
-  utilityPole: CreateOneUtilityPoleUseCaseDTO;
+  utilityPole: CreateUtilityPoleUseCaseRequest;
 }
 
 type CreateBulkOfUtilityPolesUseCaseResponse = Either<
@@ -40,9 +24,9 @@ type CreateBulkOfUtilityPolesUseCaseResponse = Either<
 export class CreateBulkOfUtilityPolesUseCase {
   constructor(private utilityPolesRepository: UtilityPolesRepository) {}
 
-  async execute({
-    utilityPolesToCreate,
-  }: CreateBulkOfUtilityPolesUseCaseRequest): Promise<CreateBulkOfUtilityPolesUseCaseResponse> {
+  async execute(
+    utilityPolesToCreate: CreateUtilityPoleUseCaseRequest[],
+  ): Promise<CreateBulkOfUtilityPolesUseCaseResponse> {
     if (utilityPolesToCreate.length === 0) {
       return right({ failed: [], created: [] });
     }
@@ -57,6 +41,28 @@ export class CreateBulkOfUtilityPolesUseCase {
         failed.push({
           error: new NegativeScrewLengthError(
             "One or more section length are less than zero",
+          ),
+          utilityPole: utilityPoleToCreate,
+        });
+        continue;
+      }
+      if (utilityPoleToCreate.strongSideSectionMultiplier < 1) {
+        failed.push({
+          error: new NotAllowedError(
+            "Is not allowed to create a utility pole with strong side section multiplier less than 1",
+          ),
+          utilityPole: utilityPoleToCreate,
+        });
+        continue;
+      }
+      if (
+        utilityPoleToCreate.lowVoltageLevelsCount +
+          utilityPoleToCreate.mediumVoltageLevelsCount ===
+        0
+      ) {
+        failed.push({
+          error: new NotAllowedError(
+            "Utility pole must have at least one level count",
           ),
           utilityPole: utilityPoleToCreate,
         });
@@ -80,6 +86,8 @@ export class CreateBulkOfUtilityPolesUseCase {
       created.push(utilityPole);
       actualCodesInRepository.add(code);
     }
+    console.log("created", created.length);
+    console.log("failed", failed.length);
     if (created.length === 0) {
       return right({ failed, created: [] });
     }
@@ -90,7 +98,7 @@ export class CreateBulkOfUtilityPolesUseCase {
     });
   }
   oneLengthInfoIsLessThanZero(
-    utilityPoleToCreate: CreateOneUtilityPoleUseCaseDTO,
+    utilityPoleToCreate: CreateUtilityPoleUseCaseRequest,
   ): boolean {
     return Object.entries(utilityPoleToCreate)
       .filter(([key]) => key !== "code" && key !== "description")

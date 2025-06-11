@@ -36,11 +36,12 @@ export class FetchWithFilterUtilityPoleUseCase {
     page,
     perPage,
   }: FetchWithFilterUtilityPoleUseCaseRequest): Promise<FetchWithFilterUtilityPoleUseCaseResponse> {
+    console.log(description);
     const { utilityPoles, pagination } =
       await this.utilityPolesRepository.fetchWithFilter(
         {
           codes,
-          description,
+          description: description?.toUpperCase(),
           minimumCountForLowVoltageLevels,
           minimumCountForMediumVoltageLevels,
         },

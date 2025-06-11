@@ -2,10 +2,11 @@ import { Injectable } from "@nestjs/common";
 import { Either, left, right } from "src/core/either";
 import { NegativeScrewLengthError } from "src/core/errors/erros-eletrical-distribution-budgeting/negative-screw-length-error";
 import { AlreadyRegisteredError } from "src/core/errors/generics/already-registered-error";
+import { NotAllowedError } from "src/core/errors/generics/not-allowed-error";
 import { UtilityPole } from "src/domain/eletrical-distribution-budgeting/enterprise/entities/utility-pole";
 import { UtilityPolesRepository } from "../../repositories/utility-poles-repository";
 
-interface CreateUtilityPoleUseCaseRequest {
+export interface CreateUtilityPoleUseCaseRequest {
   code: number;
   description: string;
 
@@ -39,6 +40,22 @@ export class CreateUtilityPoleUseCase {
         new NegativeScrewLengthError(
           "One or more section length are less than zero",
         ),
+      );
+    }
+    if (createUtilityPoleUseCaseRequest.strongSideSectionMultiplier < 1) {
+      return left(
+        new NotAllowedError(
+          "Is not allowed to create a utility pole with strong side section multiplier less than 1",
+        ),
+      );
+    }
+    if (
+      createUtilityPoleUseCaseRequest.lowVoltageLevelsCount +
+        createUtilityPoleUseCaseRequest.mediumVoltageLevelsCount ===
+      0
+    ) {
+      return left(
+        new NotAllowedError("Utility pole must have at least one level count"),
       );
     }
     const { code, description, ...otherProps } =

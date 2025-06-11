@@ -6,5 +6,5 @@ export interface PaginationParams {
 export interface PaginationResponseParams {
   actualPage: number;
   actualPerPage: number;
-  totalItemsCount: number;
+  lastPage: number;
 }

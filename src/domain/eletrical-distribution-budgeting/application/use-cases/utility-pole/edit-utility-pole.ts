@@ -64,6 +64,14 @@ export class EditUtilityPoleUseCase {
       lowVoltageSectionLengthAddBylevelInMM,
     } = editUtilityPoleUseCaseRequest;
 
+    if (strongSideSectionMultiplier && strongSideSectionMultiplier < 1) {
+      return left(
+        new NotAllowedError(
+          "Is not allowed to edit a utility pole with strong side section multiplier less than 1",
+        ),
+      );
+    }
+
     const utilityPoleToEdit =
       await this.utilityPolesRepository.findById(utilityPoleId);
 
@@ -88,14 +96,14 @@ export class EditUtilityPoleUseCase {
       hasToEdit = true;
     }
     if (
-      mediumVoltageLevelsCount &&
+      mediumVoltageLevelsCount !== undefined &&
       mediumVoltageLevelsCount !== utilityPoleToEdit.mediumVoltageLevelsCount
     ) {
       utilityPoleToEdit.mediumVoltageLevelsCount = mediumVoltageLevelsCount;
       hasToEdit = true;
     }
     if (
-      mediumVoltageStartSectionLengthInMM &&
+      mediumVoltageStartSectionLengthInMM !== undefined &&
       mediumVoltageStartSectionLengthInMM !==
         utilityPoleToEdit.mediumVoltageStartSectionLengthInMM
     ) {
@@ -104,7 +112,7 @@ export class EditUtilityPoleUseCase {
       hasToEdit = true;
     }
     if (
-      mediumVoltageSectionLengthAddBylevelInMM &&
+      mediumVoltageSectionLengthAddBylevelInMM !== undefined &&
       mediumVoltageSectionLengthAddBylevelInMM !==
         utilityPoleToEdit.mediumVoltageSectionLengthAddBylevelInMM
     ) {
@@ -113,14 +121,14 @@ export class EditUtilityPoleUseCase {
       hasToEdit = true;
     }
     if (
-      lowVoltageLevelsCount &&
+      lowVoltageLevelsCount !== undefined &&
       lowVoltageLevelsCount !== utilityPoleToEdit.lowVoltageLevelsCount
     ) {
       utilityPoleToEdit.lowVoltageLevelsCount = lowVoltageLevelsCount;
       hasToEdit = true;
     }
     if (
-      lowVoltageStartSectionLengthInMM &&
+      lowVoltageStartSectionLengthInMM !== undefined &&
       lowVoltageStartSectionLengthInMM !==
         utilityPoleToEdit.lowVoltageStartSectionLengthInMM
     ) {
@@ -129,13 +137,22 @@ export class EditUtilityPoleUseCase {
       hasToEdit = true;
     }
     if (
-      lowVoltageSectionLengthAddBylevelInMM &&
+      lowVoltageSectionLengthAddBylevelInMM !== undefined &&
       lowVoltageSectionLengthAddBylevelInMM !==
         utilityPoleToEdit.lowVoltageSectionLengthAddBylevelInMM
     ) {
       utilityPoleToEdit.lowVoltageSectionLengthAddBylevelInMM =
         lowVoltageSectionLengthAddBylevelInMM;
       hasToEdit = true;
+    }
+    if (
+      utilityPoleToEdit.lowVoltageLevelsCount +
+        utilityPoleToEdit.mediumVoltageLevelsCount ===
+      0
+    ) {
+      return left(
+        new NotAllowedError("Utility pole must have at least one level count"),
+      );
     }
 
     if (hasToEdit) {

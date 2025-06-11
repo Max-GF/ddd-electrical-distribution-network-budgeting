@@ -12,8 +12,8 @@ export interface FetchUtilityPolesWithFilterOptions {
 }
 
 export abstract class UtilityPolesRepository {
-  abstract createMany(bases: UtilityPole[]): Promise<void>;
-  abstract save(base: UtilityPole): Promise<void>;
+  abstract createMany(utilityPoles: UtilityPole[]): Promise<void>;
+  abstract save(utilityPole: UtilityPole): Promise<void>;
   abstract findById(id: string): Promise<UtilityPole | null>;
   abstract findByCode(code: number): Promise<UtilityPole | null>;
   abstract findAllCodes(): Promise<number[]>;
