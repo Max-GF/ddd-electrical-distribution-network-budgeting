@@ -4,7 +4,7 @@ import {
 } from "src/core/repositories/pagination-params";
 import { PoleScrew } from "../../enterprise/entities/pole-screw";
 
-export interface FetchPoleScrewsWithFilterOptions {
+export interface FetchPoleScrewsFilterOptions {
   codes?: number[];
   description?: string;
   minLengthInMM?: number;
@@ -18,7 +18,7 @@ export abstract class PoleScrewsRepository {
   abstract findByCode(code: number): Promise<PoleScrew | null>;
   abstract findAllCodes(): Promise<number[]>;
   abstract fetchWithFilter(
-    filterOptions: FetchPoleScrewsWithFilterOptions,
+    filterOptions: FetchPoleScrewsFilterOptions,
     paginationParams: PaginationParams,
   ): Promise<{
     poleScrews: PoleScrew[];

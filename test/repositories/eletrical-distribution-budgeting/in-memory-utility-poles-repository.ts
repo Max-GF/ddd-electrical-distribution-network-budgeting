@@ -3,7 +3,7 @@ import {
   PaginationResponseParams,
 } from "src/core/repositories/pagination-params";
 import {
-  FetchUtilityPolesWithFilterOptions,
+  FetchUtilityPolesFilterOptions,
   UtilityPolesRepository,
 } from "src/domain/eletrical-distribution-budgeting/application/repositories/utility-poles-repository";
 import { UtilityPole } from "src/domain/eletrical-distribution-budgeting/enterprise/entities/utility-pole";
@@ -37,7 +37,7 @@ export class InMemoryUtilityPolesRepository implements UtilityPolesRepository {
     return listOfCodes;
   }
   async fetchWithFilter(
-    filterOptions: FetchUtilityPolesWithFilterOptions,
+    filterOptions: FetchUtilityPolesFilterOptions,
     paginationParams: PaginationParams,
   ): Promise<{
     utilityPoles: UtilityPole[];

@@ -86,8 +86,6 @@ export class CreateBulkOfUtilityPolesUseCase {
       created.push(utilityPole);
       actualCodesInRepository.add(code);
     }
-    console.log("created", created.length);
-    console.log("failed", failed.length);
     if (created.length === 0) {
       return right({ failed, created: [] });
     }

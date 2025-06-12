@@ -5,7 +5,7 @@ import {
 import { Cable } from "../../enterprise/entities/cable";
 import { TensionLevelEntries } from "../../enterprise/entities/value-objects/tension-level";
 
-export interface FetchCablesWithFilterOptions {
+export interface FetchCablesFilterOptions {
   codes?: number[];
   description?: string;
   tension?: TensionLevelEntries;
@@ -14,13 +14,13 @@ export interface FetchCablesWithFilterOptions {
 }
 
 export abstract class CablesRepository {
-  abstract createMany(bases: Cable[]): Promise<void>;
-  abstract save(base: Cable): Promise<void>;
+  abstract createMany(cables: Cable[]): Promise<void>;
+  abstract save(cable: Cable): Promise<void>;
   abstract findById(id: string): Promise<Cable | null>;
   abstract findByCode(code: number): Promise<Cable | null>;
   abstract findAllCodes(): Promise<number[]>;
   abstract fetchWithFilter(
-    filterOptions: FetchCablesWithFilterOptions,
+    filterOptions: FetchCablesFilterOptions,
     paginationParams: PaginationParams,
   ): Promise<{
     cables: Cable[];

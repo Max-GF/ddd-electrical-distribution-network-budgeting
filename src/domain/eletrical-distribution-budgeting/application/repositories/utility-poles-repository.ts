@@ -4,7 +4,7 @@ import {
 } from "src/core/repositories/pagination-params";
 import { UtilityPole } from "../../enterprise/entities/utility-pole";
 
-export interface FetchUtilityPolesWithFilterOptions {
+export interface FetchUtilityPolesFilterOptions {
   codes?: number[];
   description?: string;
   minimumCountForLowVoltageLevels?: number;
@@ -18,7 +18,7 @@ export abstract class UtilityPolesRepository {
   abstract findByCode(code: number): Promise<UtilityPole | null>;
   abstract findAllCodes(): Promise<number[]>;
   abstract fetchWithFilter(
-    filterOptions: FetchUtilityPolesWithFilterOptions,
+    filterOptions: FetchUtilityPolesFilterOptions,
     paginationParams: PaginationParams,
   ): Promise<{
     utilityPoles: UtilityPole[];

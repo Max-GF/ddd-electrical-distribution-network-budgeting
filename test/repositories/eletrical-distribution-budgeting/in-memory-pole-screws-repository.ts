@@ -3,7 +3,7 @@ import {
   PaginationResponseParams,
 } from "src/core/repositories/pagination-params";
 import {
-  FetchPoleScrewsWithFilterOptions,
+  FetchPoleScrewsFilterOptions,
   PoleScrewsRepository,
 } from "src/domain/eletrical-distribution-budgeting/application/repositories/pole-screws-repository";
 import { PoleScrew } from "src/domain/eletrical-distribution-budgeting/enterprise/entities/pole-screw";
@@ -36,7 +36,7 @@ export class InMemoryPoleScrewsRepository implements PoleScrewsRepository {
     return listOfCodes;
   }
   async fetchWithFilter(
-    filterOptions: FetchPoleScrewsWithFilterOptions,
+    filterOptions: FetchPoleScrewsFilterOptions,
     paginationParams: PaginationParams,
   ): Promise<{
     poleScrews: PoleScrew[];

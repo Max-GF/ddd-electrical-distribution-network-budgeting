@@ -4,7 +4,7 @@ import {
 } from "src/core/repositories/pagination-params";
 import { CableConnector } from "../../enterprise/entities/cable-connectors";
 
-export interface FetchCableConnectorsWithFilterOptions {
+export interface FetchCableConnectorsFilterOptions {
   codes?: number[];
   description?: string;
 
@@ -22,7 +22,7 @@ export abstract class CableConnectorsRepository {
   abstract findByCode(code: number): Promise<CableConnector | null>;
   abstract findAllCodes(): Promise<number[]>;
   abstract fetchWithFilter(
-    filterOptions: FetchCableConnectorsWithFilterOptions,
+    filterOptions: FetchCableConnectorsFilterOptions,
     paginationParams: PaginationParams,
   ): Promise<{
     cableConnectors: CableConnector[];
