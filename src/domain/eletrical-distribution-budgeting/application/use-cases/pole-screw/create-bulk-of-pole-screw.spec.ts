@@ -5,7 +5,7 @@ import { CreatePoleScrewUseCaseRequest } from "./create-pole-screw";
 let inMemoryPoleScrewsRepository: InMemoryPoleScrewsRepository;
 let sut: CreateBulkOfPoleScrewsUseCase;
 
-describe("Create bulk of Utility Poles", () => {
+describe("Create bulk of Pole Screw", () => {
   beforeEach(() => {
     inMemoryPoleScrewsRepository = new InMemoryPoleScrewsRepository();
     sut = new CreateBulkOfPoleScrewsUseCase(inMemoryPoleScrewsRepository);

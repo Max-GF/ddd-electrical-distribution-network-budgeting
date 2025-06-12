@@ -6,7 +6,7 @@ import { FetchWithFilterPoleScrewUseCase } from "./fetch-pole-screws-with-filter
 let inMemoryPoleScrewsRepository: InMemoryPoleScrewsRepository;
 let sut: FetchWithFilterPoleScrewUseCase;
 
-describe("Create Utility Pole", () => {
+describe("Fetch pole screws with options", () => {
   beforeEach(() => {
     inMemoryPoleScrewsRepository = new InMemoryPoleScrewsRepository();
     sut = new FetchWithFilterPoleScrewUseCase(inMemoryPoleScrewsRepository);
