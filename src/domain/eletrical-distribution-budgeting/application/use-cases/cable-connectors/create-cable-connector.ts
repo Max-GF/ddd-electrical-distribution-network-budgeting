@@ -34,7 +34,7 @@ export class CreateCableConnectorUseCase {
     if (this.oneLengthInfoIsLessThanZero(cableConnectorToCreate)) {
       return left(
         new NegativeCableSectionError(
-          "CableConnector entrance and exit section lengths must be greater than or equal to zero.",
+          "Cable Connector entrance and exit section lengths must be greater than or equal to zero.",
         ),
       );
     }
@@ -46,14 +46,14 @@ export class CreateCableConnectorUseCase {
       exitMaxValueMM,
       exitMinValueMM,
     } = cableConnectorToCreate;
-    if (entranceMinValueMM >= entranceMaxValueMM) {
+    if (entranceMinValueMM > entranceMaxValueMM) {
       return left(
         new NotAllowedError(
           "Entrace maximum value must be greater than entrance minimum value",
         ),
       );
     }
-    if (exitMinValueMM >= exitMaxValueMM) {
+    if (exitMinValueMM > exitMaxValueMM) {
       return left(
         new NotAllowedError(
           "Exit maximum value must be greater than exit minimum value",
@@ -64,7 +64,7 @@ export class CreateCableConnectorUseCase {
       await this.cableConnectorsRepository.findByCode(code);
     if (cableConnectorWithSameCode) {
       return left(
-        new AlreadyRegisteredError("CableConnector code already registered"),
+        new AlreadyRegisteredError("Cable Connector code already registered"),
       );
     }
 
