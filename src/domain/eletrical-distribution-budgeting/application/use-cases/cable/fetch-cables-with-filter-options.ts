@@ -50,11 +50,10 @@ export class FetchWithFilterCableUseCase {
         ),
       );
     }
-
     const { cables, pagination } = await this.cablesRepository.fetchWithFilter(
       {
         codes,
-        description,
+        description: description?.toUpperCase(),
         tension: upperCasedTension,
         maxSectionAreaInMM,
         minSectionAreaInMM,

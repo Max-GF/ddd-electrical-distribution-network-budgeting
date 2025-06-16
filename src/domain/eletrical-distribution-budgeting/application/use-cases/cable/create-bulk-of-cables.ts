@@ -2,24 +2,15 @@ import { Injectable } from "@nestjs/common";
 import { Either, right } from "src/core/either";
 import { NegativeCableSectionError } from "src/core/errors/erros-eletrical-distribution-budgeting/negative-cable-section-length-error";
 import { AlreadyRegisteredError } from "src/core/errors/generics/already-registered-error";
+import { NotAllowedError } from "src/core/errors/generics/not-allowed-error";
 import { Cable } from "src/domain/eletrical-distribution-budgeting/enterprise/entities/cable";
 import { TensionLevel } from "src/domain/eletrical-distribution-budgeting/enterprise/entities/value-objects/tension-level";
 import { CablesRepository } from "../../repositories/cables-repository";
+import { CreateCableUseCaseRequest } from "./create-cable";
 
-interface CreateOneCableUseCaseDTO {
-  code: number;
-  description: string;
-
-  tension: string;
-  sectionAreaInMM: number;
-}
-
-interface CreateBulkOfCablesUseCaseRequest {
-  cablesToCreate: CreateOneCableUseCaseDTO[];
-}
 interface FailedLog {
-  error: AlreadyRegisteredError | NegativeCableSectionError;
-  cable: CreateOneCableUseCaseDTO;
+  error: AlreadyRegisteredError | NegativeCableSectionError | NotAllowedError;
+  cable: CreateCableUseCaseRequest;
 }
 
 type CreateBulkOfCablesUseCaseResponse = Either<
@@ -34,9 +25,9 @@ type CreateBulkOfCablesUseCaseResponse = Either<
 export class CreateBulkOfCablesUseCase {
   constructor(private cablesRepository: CablesRepository) {}
 
-  async execute({
-    cablesToCreate,
-  }: CreateBulkOfCablesUseCaseRequest): Promise<CreateBulkOfCablesUseCaseResponse> {
+  async execute(
+    cablesToCreate: CreateCableUseCaseRequest[],
+  ): Promise<CreateBulkOfCablesUseCaseResponse> {
     if (cablesToCreate.length === 0) {
       return right({ failed: [], created: [] });
     }

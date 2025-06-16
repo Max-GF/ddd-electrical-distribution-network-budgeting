@@ -63,7 +63,7 @@ export class EditCableUseCase {
     const cableToEdit = await this.cablesRepository.findById(cableId);
 
     if (!cableToEdit) {
-      return left(new ResourceNotFoundError("Given pole screw was not found"));
+      return left(new ResourceNotFoundError("Given cable was not found"));
     }
 
     if (description && description !== cableToEdit.description) {

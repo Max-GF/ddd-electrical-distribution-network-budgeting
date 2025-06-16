@@ -15,15 +15,15 @@ describe("Edit PoleScrew", () => {
   });
 
   it("should be able to edit a pole screw", async () => {
-    const podeScrewToEdit = makePoleScrew({
+    const poleScrewToEdit = makePoleScrew({
       code: 123456,
       description: "3000mm Pole Screw",
       lengthInMM: 3000,
     });
-    await inMemoryPoleScrewsRepository.createMany([podeScrewToEdit]);
+    await inMemoryPoleScrewsRepository.createMany([poleScrewToEdit]);
     expect(inMemoryPoleScrewsRepository.items).toHaveLength(1);
     const result = await sut.execute({
-      poleScrewId: podeScrewToEdit.id.toString(),
+      poleScrewId: poleScrewToEdit.id.toString(),
       description: "4000mm Pole Screw",
       lengthInMM: 4000,
     });
@@ -41,15 +41,15 @@ describe("Edit PoleScrew", () => {
   });
 
   it("should not be able to edit a pole screw with negative length", async () => {
-    const podeScrewToEdit = makePoleScrew({
+    const poleScrewToEdit = makePoleScrew({
       code: 123456,
       description: "3000mm Pole Screw",
       lengthInMM: 3000,
     });
-    await inMemoryPoleScrewsRepository.createMany([podeScrewToEdit]);
+    await inMemoryPoleScrewsRepository.createMany([poleScrewToEdit]);
     expect(inMemoryPoleScrewsRepository.items).toHaveLength(1);
     const result = await sut.execute({
-      poleScrewId: podeScrewToEdit.id.toString(),
+      poleScrewId: poleScrewToEdit.id.toString(),
       description: "4000mm Pole Screw",
       lengthInMM: -4000,
     });
@@ -77,15 +77,15 @@ describe("Edit PoleScrew", () => {
     }
   });
   it("should not be able to edit a pole screw when no entries was given", async () => {
-    const podeScrewToEdit = makePoleScrew({
+    const poleScrewToEdit = makePoleScrew({
       code: 123456,
       description: "3000mm Pole Screw",
       lengthInMM: 3000,
     });
-    await inMemoryPoleScrewsRepository.createMany([podeScrewToEdit]);
+    await inMemoryPoleScrewsRepository.createMany([poleScrewToEdit]);
     expect(inMemoryPoleScrewsRepository.items).toHaveLength(1);
     const result = await sut.execute({
-      poleScrewId: podeScrewToEdit.id.toString(),
+      poleScrewId: poleScrewToEdit.id.toString(),
     });
 
     expect(inMemoryPoleScrewsRepository.items).toHaveLength(1);

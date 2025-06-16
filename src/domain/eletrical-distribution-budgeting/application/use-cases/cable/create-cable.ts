@@ -7,7 +7,7 @@ import { Cable } from "src/domain/eletrical-distribution-budgeting/enterprise/en
 import { TensionLevel } from "src/domain/eletrical-distribution-budgeting/enterprise/entities/value-objects/tension-level";
 import { CablesRepository } from "../../repositories/cables-repository";
 
-interface CreateCableUseCaseRequest {
+export interface CreateCableUseCaseRequest {
   code: number;
   description: string;
 
@@ -16,7 +16,7 @@ interface CreateCableUseCaseRequest {
 }
 
 type CreateCableUseCaseResponse = Either<
-  AlreadyRegisteredError | NegativeCableSectionError,
+  AlreadyRegisteredError | NegativeCableSectionError | NotAllowedError,
   {
     cable: Cable;
   }
