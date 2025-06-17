@@ -43,7 +43,7 @@ export class EditCableConnectorUseCase {
     if (this.oneLengthInfoIsLessThanZero(editCableConnectorUseCaseRequest)) {
       return left(
         new NegativeCableSectionError(
-          "CableConnector entrance and exit section lengths must be greater than or equal to zero.",
+          "Cable Connector entrance and exit section lengths must be greater than or equal to zero.",
         ),
       );
     }
@@ -61,7 +61,9 @@ export class EditCableConnectorUseCase {
       await this.cableConnectorsRepository.findById(cableConnectorId);
 
     if (!cableConnectorToEdit) {
-      return left(new ResourceNotFoundError("Given pole screw was not found"));
+      return left(
+        new ResourceNotFoundError("Given cable connector was not found"),
+      );
     }
 
     if (description && description !== cableConnectorToEdit.description) {
@@ -81,8 +83,8 @@ export class EditCableConnectorUseCase {
     ) {
       if (entranceMaxValueMM < cableConnectorToEdit.entranceMinValueMM) {
         return left(
-          new NegativeCableSectionError(
-            "CableConnector entrance max value must be greater than or equal to entrance min value.",
+          new NotAllowedError(
+            "Cable Connector entrance max value must be greater than or equal to entrance min value.",
           ),
         );
       }
@@ -102,8 +104,8 @@ export class EditCableConnectorUseCase {
     ) {
       if (exitMaxValueMM < cableConnectorToEdit.exitMinValueMM) {
         return left(
-          new NegativeCableSectionError(
-            "CableConnector exit max value must be greater than or equal to exit min value.",
+          new NotAllowedError(
+            "Cable Connector exit max value must be greater than or equal to exit min value.",
           ),
         );
       }

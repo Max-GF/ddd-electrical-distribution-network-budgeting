@@ -6,7 +6,7 @@ import { NotAllowedError } from "src/core/errors/generics/not-allowed-error";
 import { CableConnector } from "src/domain/eletrical-distribution-budgeting/enterprise/entities/cable-connectors";
 import { CableConnectorsRepository } from "../../repositories/cable-connectors-repository";
 
-interface CreateCableConnectorUseCaseRequest {
+export interface CreateCableConnectorUseCaseRequest {
   code: number;
   description: string;
 

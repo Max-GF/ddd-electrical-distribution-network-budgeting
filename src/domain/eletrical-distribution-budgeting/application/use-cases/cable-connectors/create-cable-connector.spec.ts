@@ -33,6 +33,25 @@ describe("Create Cable Connector", () => {
       );
     }
   });
+  it("should be able to create a cable connector - strap test", async () => {
+    expect(inMemoryCableConnectorsRepository.items).toHaveLength(0);
+    const result = await sut.execute({
+      code: 123456,
+      description: "3000mm Cable Strap",
+      entranceMinValueMM: 3000,
+      entranceMaxValueMM: 3000,
+      exitMinValueMM: 0,
+      exitMaxValueMM: 0,
+    });
+
+    expect(inMemoryCableConnectorsRepository.items).toHaveLength(1);
+    expect(result.isRight()).toBeTruthy();
+    if (result.isRight()) {
+      expect(inMemoryCableConnectorsRepository.items[0]).toEqual(
+        result.value.cableConnector,
+      );
+    }
+  });
 
   it("should not be able to create a cable connector with negative length", async () => {
     expect(inMemoryCableConnectorsRepository.items).toHaveLength(0);

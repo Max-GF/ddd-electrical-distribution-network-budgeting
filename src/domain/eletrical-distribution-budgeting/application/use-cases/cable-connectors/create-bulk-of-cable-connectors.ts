@@ -5,24 +5,11 @@ import { AlreadyRegisteredError } from "src/core/errors/generics/already-registe
 import { NotAllowedError } from "src/core/errors/generics/not-allowed-error";
 import { CableConnector } from "src/domain/eletrical-distribution-budgeting/enterprise/entities/cable-connectors";
 import { CableConnectorsRepository } from "../../repositories/cable-connectors-repository";
+import { CreateCableConnectorUseCaseRequest } from "./create-cable-connector";
 
-interface CreateOneCableConnectorUseCaseDTO {
-  code: number;
-  description: string;
-
-  entranceMinValueMM: number;
-  entranceMaxValueMM: number;
-
-  exitMinValueMM: number;
-  exitMaxValueMM: number;
-}
-
-interface CreateBulkOfCableConnectorsUseCaseRequest {
-  cableConnectorsToCreate: CreateOneCableConnectorUseCaseDTO[];
-}
 interface FailedLog {
   error: AlreadyRegisteredError | NegativeCableSectionError | NotAllowedError;
-  cableConnector: CreateOneCableConnectorUseCaseDTO;
+  cableConnector: CreateCableConnectorUseCaseRequest;
 }
 
 type CreateBulkOfCableConnectorsUseCaseResponse = Either<
@@ -37,9 +24,9 @@ type CreateBulkOfCableConnectorsUseCaseResponse = Either<
 export class CreateBulkOfCableConnectorsUseCase {
   constructor(private cableConnectorsRepository: CableConnectorsRepository) {}
 
-  async execute({
-    cableConnectorsToCreate,
-  }: CreateBulkOfCableConnectorsUseCaseRequest): Promise<CreateBulkOfCableConnectorsUseCaseResponse> {
+  async execute(
+    cableConnectorsToCreate: CreateCableConnectorUseCaseRequest[],
+  ): Promise<CreateBulkOfCableConnectorsUseCaseResponse> {
     if (cableConnectorsToCreate.length === 0) {
       return right({ failed: [], created: [] });
     }
@@ -53,14 +40,14 @@ export class CreateBulkOfCableConnectorsUseCase {
       if (this.oneLengthInfoIsLessThanZero(cableConnectorToCreate)) {
         failed.push({
           error: new NegativeCableSectionError(
-            "CableConnector conections area must be greater than zero",
+            "Cable Connector conections area must be greater than zero",
           ),
           cableConnector: cableConnectorToCreate,
         });
         continue;
       }
       if (
-        cableConnectorToCreate.entranceMinValueMM >=
+        cableConnectorToCreate.entranceMinValueMM >
         cableConnectorToCreate.entranceMaxValueMM
       ) {
         failed.push({
@@ -72,7 +59,7 @@ export class CreateBulkOfCableConnectorsUseCase {
         continue;
       }
       if (
-        cableConnectorToCreate.exitMinValueMM >=
+        cableConnectorToCreate.exitMinValueMM >
         cableConnectorToCreate.exitMaxValueMM
       ) {
         failed.push({
@@ -87,7 +74,7 @@ export class CreateBulkOfCableConnectorsUseCase {
       if (actualCodesInRepository.has(code)) {
         failed.push({
           error: new AlreadyRegisteredError(
-            "CableConnector code already registered",
+            "Cable Connector code already registered",
           ),
           cableConnector: cableConnectorToCreate,
         });
@@ -111,7 +98,7 @@ export class CreateBulkOfCableConnectorsUseCase {
     });
   }
   oneLengthInfoIsLessThanZero(
-    cableConnectorToCreate: CreateOneCableConnectorUseCaseDTO,
+    cableConnectorToCreate: CreateCableConnectorUseCaseRequest,
   ): boolean {
     return Object.entries(cableConnectorToCreate)
       .filter(([key]) => key !== "code" && key !== "description")

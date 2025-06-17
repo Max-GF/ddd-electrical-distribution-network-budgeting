@@ -55,7 +55,7 @@ export class FetchWithFilterCableConnectorUseCase {
       await this.cableConnectorsRepository.fetchWithFilter(
         {
           codes,
-          description,
+          description: description?.toUpperCase(),
           entranceMinValueMM,
           entranceMaxValueMM,
           exitMinValueMM,

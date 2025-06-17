@@ -54,38 +54,33 @@ export class InMemoryCableConnectorsRepository
       exitMinValueMM,
     } = filterOptions;
 
-    const filteredCableConnectors = this.items
-      .filter((item) => {
-        if (codes && !codes.includes(item.code)) {
-          return false;
-        }
-        if (description && !item.description.includes(description)) {
-          return false;
-        }
-        if (
-          entranceMinValueMM &&
-          item.entranceMinValueMM < entranceMinValueMM
-        ) {
-          return false;
-        }
-        if (
-          entranceMaxValueMM &&
-          item.entranceMaxValueMM > entranceMaxValueMM
-        ) {
-          return false;
-        }
-        if (exitMinValueMM && item.exitMinValueMM < exitMinValueMM) {
-          return false;
-        }
-        if (exitMaxValueMM && item.exitMaxValueMM > exitMaxValueMM) {
-          return false;
-        }
-        return true;
-      })
+    const filteredCableConnectors = this.items.filter((item) => {
+      if (codes && !codes.includes(item.code)) {
+        return false;
+      }
+      if (description && !item.description.includes(description)) {
+        return false;
+      }
+      if (entranceMinValueMM && item.entranceMinValueMM < entranceMinValueMM) {
+        return false;
+      }
+      if (entranceMaxValueMM && item.entranceMaxValueMM > entranceMaxValueMM) {
+        return false;
+      }
+      if (exitMinValueMM && item.exitMinValueMM < exitMinValueMM) {
+        return false;
+      }
+      if (exitMaxValueMM && item.exitMaxValueMM > exitMaxValueMM) {
+        return false;
+      }
+      return true;
+    });
+
+    const handedData = filteredCableConnectors
       .slice((page - 1) * perPage, page * perPage)
       .sort((a, b) => a.code - b.code);
     return {
-      cableConnectors: filteredCableConnectors,
+      cableConnectors: handedData,
       pagination: {
         actualPage: page,
         actualPerPage: perPage,

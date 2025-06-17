@@ -44,27 +44,27 @@ export class InMemoryPoleScrewsRepository implements PoleScrewsRepository {
   }> {
     const { page = 1, perPage = 10 } = paginationParams;
     const { description, codes, maxLengthInMM, minLengthInMM } = filterOptions;
-    const filteredPoleScrews = this.items
-      .filter((poleScrew) => {
-        if (description && !poleScrew.description.includes(description)) {
-          return false;
-        }
-        if (codes && !codes.includes(poleScrew.code)) {
-          return false;
-        }
-        if (minLengthInMM && poleScrew.lengthInMM < minLengthInMM) {
-          return false;
-        }
-        if (maxLengthInMM && poleScrew.lengthInMM > maxLengthInMM) {
-          return false;
-        }
-        return true;
-      })
+    const filteredPoleScrews = this.items.filter((poleScrew) => {
+      if (description && !poleScrew.description.includes(description)) {
+        return false;
+      }
+      if (codes && !codes.includes(poleScrew.code)) {
+        return false;
+      }
+      if (minLengthInMM && poleScrew.lengthInMM < minLengthInMM) {
+        return false;
+      }
+      if (maxLengthInMM && poleScrew.lengthInMM > maxLengthInMM) {
+        return false;
+      }
+      return true;
+    });
+    const handedData = filteredPoleScrews
       .slice((page - 1) * perPage, page * perPage)
       .sort((a, b) => a.code - b.code);
 
     return {
-      poleScrews: filteredPoleScrews,
+      poleScrews: handedData,
       pagination: {
         actualPage: page,
         actualPerPage: perPage,

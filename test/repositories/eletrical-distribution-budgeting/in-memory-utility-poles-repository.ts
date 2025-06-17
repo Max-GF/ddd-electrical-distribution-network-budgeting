@@ -50,33 +50,33 @@ export class InMemoryUtilityPolesRepository implements UtilityPolesRepository {
       minimumCountForLowVoltageLevels,
       minimumCountForMediumVoltageLevels,
     } = filterOptions;
-    const filteredUtilityPoles = this.items
-      .filter((item) => {
-        if (codes && !codes.includes(item.code)) {
-          return false;
-        }
-        if (description && !item.description.includes(description)) {
-          return false;
-        }
-        if (
-          minimumCountForLowVoltageLevels &&
-          minimumCountForLowVoltageLevels > item.lowVoltageLevelsCount
-        ) {
-          return false;
-        }
-        if (
-          minimumCountForMediumVoltageLevels &&
-          minimumCountForMediumVoltageLevels > item.mediumVoltageLevelsCount
-        ) {
-          return false;
-        }
-        return true;
-      })
+    const filteredUtilityPoles = this.items.filter((item) => {
+      if (codes && !codes.includes(item.code)) {
+        return false;
+      }
+      if (description && !item.description.includes(description)) {
+        return false;
+      }
+      if (
+        minimumCountForLowVoltageLevels &&
+        minimumCountForLowVoltageLevels > item.lowVoltageLevelsCount
+      ) {
+        return false;
+      }
+      if (
+        minimumCountForMediumVoltageLevels &&
+        minimumCountForMediumVoltageLevels > item.mediumVoltageLevelsCount
+      ) {
+        return false;
+      }
+      return true;
+    });
+    const handedData = filteredUtilityPoles
       .slice((page - 1) * perPage, page * perPage)
       .sort((a, b) => a.code - b.code);
 
     return {
-      utilityPoles: filteredUtilityPoles,
+      utilityPoles: handedData,
       pagination: {
         actualPage: page,
         actualPerPage: perPage,

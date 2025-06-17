@@ -45,30 +45,29 @@ export class InMemoryCablesRepository implements CablesRepository {
       maxSectionAreaInMM,
       tension,
     } = filterOptions;
-    const filteredCables = this.items
-      .filter((cable) => {
-        if (codes && !codes.includes(cable.code)) {
-          return false;
-        }
-        if (description && !cable.description.includes(description)) {
-          return false;
-        }
-        if (minSectionAreaInMM && cable.sectionAreaInMM < minSectionAreaInMM) {
-          return false;
-        }
-        if (maxSectionAreaInMM && cable.sectionAreaInMM > maxSectionAreaInMM) {
-          return false;
-        }
-        if (tension && cable.tension.value !== tension) {
-          return false;
-        }
-        return true;
-      })
+    const filteredCables = this.items.filter((cable) => {
+      if (codes && !codes.includes(cable.code)) {
+        return false;
+      }
+      if (description && !cable.description.includes(description)) {
+        return false;
+      }
+      if (minSectionAreaInMM && cable.sectionAreaInMM < minSectionAreaInMM) {
+        return false;
+      }
+      if (maxSectionAreaInMM && cable.sectionAreaInMM > maxSectionAreaInMM) {
+        return false;
+      }
+      if (tension && cable.tension.value !== tension) {
+        return false;
+      }
+      return true;
+    });
+    const handedData = filteredCables
       .slice((page - 1) * perPage, page * perPage)
       .sort((a, b) => a.code - b.code);
-
     return {
-      cables: filteredCables,
+      cables: handedData,
       pagination: {
         actualPage: page,
         actualPerPage: perPage,
