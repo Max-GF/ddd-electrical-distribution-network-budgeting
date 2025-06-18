@@ -8,6 +8,7 @@ import { PoleScrewsRepository } from "../../repositories/pole-screws-repository"
 export interface CreatePoleScrewUseCaseRequest {
   code: number;
   description: string;
+  unit: string;
 
   lengthInMM: number;
 }
@@ -26,6 +27,7 @@ export class CreatePoleScrewUseCase {
   async execute({
     code,
     description,
+    unit,
     lengthInMM,
   }: CreatePoleScrewUseCaseRequest): Promise<CreatePoleScrewUseCaseResponse> {
     if (lengthInMM <= 0) {
@@ -46,6 +48,7 @@ export class CreatePoleScrewUseCase {
     const poleScrew = PoleScrew.create({
       code,
       description: description.toUpperCase(),
+      unit: unit.toUpperCase(),
       lengthInMM,
     });
     await this.poleScrewsRepository.createMany([poleScrew]);

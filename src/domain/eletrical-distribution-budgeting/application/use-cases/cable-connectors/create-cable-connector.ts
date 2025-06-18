@@ -9,6 +9,7 @@ import { CableConnectorsRepository } from "../../repositories/cable-connectors-r
 export interface CreateCableConnectorUseCaseRequest {
   code: number;
   description: string;
+  unit: string;
 
   entranceMinValueMM: number;
   entranceMaxValueMM: number;
@@ -41,6 +42,7 @@ export class CreateCableConnectorUseCase {
     const {
       code,
       description,
+      unit,
       entranceMaxValueMM,
       entranceMinValueMM,
       exitMaxValueMM,
@@ -71,6 +73,7 @@ export class CreateCableConnectorUseCase {
     const cableConnector = CableConnector.create({
       code,
       description: description.toUpperCase(),
+      unit: unit.toUpperCase(),
       entranceMinValueMM,
       entranceMaxValueMM,
       exitMinValueMM,
@@ -85,7 +88,9 @@ export class CreateCableConnectorUseCase {
     cableConnectorToCreate: CreateCableConnectorUseCaseRequest,
   ): boolean {
     return Object.entries(cableConnectorToCreate)
-      .filter(([key]) => key !== "code" && key !== "description")
+      .filter(
+        ([key]) => key !== "code" && key !== "description" && key !== "unit",
+      )
       .some(([, value]) => value < 0);
   }
 }

@@ -18,6 +18,7 @@ describe("Edit CableConnector", () => {
     const cableConnectorToEdit = makeCableConnector({
       code: 123456,
       description: "3000mm Cable Connector",
+      unit: "MM",
       entranceMinValueMM: 3000,
       entranceMaxValueMM: 3001,
       exitMinValueMM: 3000,
@@ -28,6 +29,7 @@ describe("Edit CableConnector", () => {
     const result = await sut.execute({
       cableConnectorId: cableConnectorToEdit.id.toString(),
       description: "3500mm Cable Connector",
+      unit: "UND",
       entranceMinValueMM: 3500,
       entranceMaxValueMM: 3501,
       exitMinValueMM: 3500,
@@ -43,6 +45,7 @@ describe("Edit CableConnector", () => {
       expect(inMemoryCableConnectorsRepository.items[0].description).toBe(
         "3500MM CABLE CONNECTOR",
       );
+      expect(inMemoryCableConnectorsRepository.items[0].unit).toBe("UND");
     }
   });
 
@@ -50,6 +53,7 @@ describe("Edit CableConnector", () => {
     const cableConnectorToEdit = makeCableConnector({
       code: 123456,
       description: "3000mm Cable Connector",
+      unit: "MM",
       entranceMinValueMM: 3000,
       entranceMaxValueMM: 3001,
       exitMinValueMM: 3000,
@@ -60,6 +64,7 @@ describe("Edit CableConnector", () => {
     const result = await sut.execute({
       cableConnectorId: cableConnectorToEdit.id.toString(),
       description: "3500mm Cable Connector",
+      unit: "MM",
       entranceMinValueMM: -3500,
       entranceMaxValueMM: 3501,
       exitMinValueMM: 3500,
@@ -79,6 +84,7 @@ describe("Edit CableConnector", () => {
     const cableConnectorToEdit = makeCableConnector({
       code: 123456,
       description: "3000mm Cable Connector",
+      unit: "MM",
       entranceMinValueMM: 3000,
       entranceMaxValueMM: 3001,
       exitMinValueMM: 3000,
@@ -89,6 +95,7 @@ describe("Edit CableConnector", () => {
     const result = await sut.execute({
       cableConnectorId: cableConnectorToEdit.id.toString(),
       description: "3500mm Cable Connector",
+      unit: "MM",
       entranceMinValueMM: 3501,
       entranceMaxValueMM: 3500,
       exitMinValueMM: 3500,
@@ -108,6 +115,7 @@ describe("Edit CableConnector", () => {
     const cableConnectorToEdit = makeCableConnector({
       code: 123456,
       description: "3000mm Cable Connector",
+      unit: "MM",
       entranceMinValueMM: 3000,
       entranceMaxValueMM: 3001,
       exitMinValueMM: 3000,
@@ -118,6 +126,7 @@ describe("Edit CableConnector", () => {
     const result = await sut.execute({
       cableConnectorId: cableConnectorToEdit.id.toString(),
       description: "3500mm Cable Connector",
+      unit: "MM",
       entranceMinValueMM: 3500,
       entranceMaxValueMM: 3501,
       exitMinValueMM: 3501,
@@ -138,6 +147,7 @@ describe("Edit CableConnector", () => {
     const result = await sut.execute({
       cableConnectorId: "unexisting-id",
       description: "3500mm Cable Connector",
+      unit: "MM",
       entranceMinValueMM: 3500,
       entranceMaxValueMM: 3501,
       exitMinValueMM: 3500,
@@ -155,6 +165,7 @@ describe("Edit CableConnector", () => {
     const cableConnectorToEdit = makeCableConnector({
       code: 123456,
       description: "3000mm Cable Connector",
+      unit: "MM",
       entranceMinValueMM: 3000,
       entranceMaxValueMM: 3001,
       exitMinValueMM: 3000,

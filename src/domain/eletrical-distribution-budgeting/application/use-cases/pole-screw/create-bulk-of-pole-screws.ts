@@ -45,7 +45,7 @@ export class CreateBulkOfPoleScrewsUseCase {
         });
         continue;
       }
-      const { code, description, lengthInMM } = poleScrewToCreate;
+      const { code, description, unit, lengthInMM } = poleScrewToCreate;
       if (actualCodesInRepository.has(code)) {
         failed.push({
           error: new AlreadyRegisteredError(
@@ -58,6 +58,7 @@ export class CreateBulkOfPoleScrewsUseCase {
       const poleScrew = PoleScrew.create({
         code,
         description: description.toUpperCase(),
+        unit: unit.toUpperCase(),
         lengthInMM,
       });
       created.push(poleScrew);

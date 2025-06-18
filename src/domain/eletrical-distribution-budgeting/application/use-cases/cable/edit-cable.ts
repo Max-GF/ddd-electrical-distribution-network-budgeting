@@ -11,6 +11,7 @@ import { CablesRepository } from "../../repositories/cables-repository";
 interface EditCableUseCaseRequest {
   cableId: string;
   description?: string;
+  unit?: string;
 
   tension?: string;
   sectionAreaInMM?: number;
@@ -39,7 +40,7 @@ export class EditCableUseCase {
       return left(new NotAllowedError("No entries provided"));
     }
 
-    const { cableId, description, sectionAreaInMM, tension } =
+    const { cableId, description, sectionAreaInMM, tension, unit } =
       editCableUseCaseRequest;
 
     if (sectionAreaInMM && sectionAreaInMM <= 0) {
@@ -66,7 +67,7 @@ export class EditCableUseCase {
       return left(new ResourceNotFoundError("Given cable was not found"));
     }
 
-    if (description && description !== cableToEdit.description) {
+    if (description && description.toUpperCase() !== cableToEdit.description) {
       cableToEdit.description = description.toUpperCase();
       hasToEdit = true;
     }
@@ -76,6 +77,10 @@ export class EditCableUseCase {
     }
     if (upperCasedTension !== null) {
       cableToEdit.tension = TensionLevel.create(upperCasedTension);
+      hasToEdit = true;
+    }
+    if (unit && unit.toUpperCase() !== cableToEdit.unit) {
+      cableToEdit.unit = unit.toUpperCase();
       hasToEdit = true;
     }
 

@@ -19,6 +19,7 @@ describe("Create Cable Connector", () => {
     const result = await sut.execute({
       code: 123456,
       description: "3000mm Cable Connector",
+      unit: "MM",
       entranceMinValueMM: 3000,
       entranceMaxValueMM: 3000,
       exitMinValueMM: 3000,
@@ -38,6 +39,7 @@ describe("Create Cable Connector", () => {
     const result = await sut.execute({
       code: 123456,
       description: "3000mm Cable Strap",
+      unit: "MM",
       entranceMinValueMM: 3000,
       entranceMaxValueMM: 3000,
       exitMinValueMM: 0,
@@ -58,6 +60,7 @@ describe("Create Cable Connector", () => {
     const result = await sut.execute({
       code: 123456,
       description: "3000mm Cable Connector",
+      unit: "MM",
       entranceMinValueMM: -3000,
       entranceMaxValueMM: 3000,
       exitMinValueMM: 3000,
@@ -78,6 +81,7 @@ describe("Create Cable Connector", () => {
     const result = await sut.execute({
       code: 123456,
       description: "3000mm Cable Connector",
+      unit: "MM",
       entranceMinValueMM: 3001,
       entranceMaxValueMM: 3000,
       exitMinValueMM: 3000,
@@ -98,6 +102,7 @@ describe("Create Cable Connector", () => {
     const result = await sut.execute({
       code: 123456,
       description: "3000mm Cable Connector",
+      unit: "MM",
       entranceMinValueMM: 3000,
       entranceMaxValueMM: 3000,
       exitMinValueMM: 3001,
@@ -125,6 +130,7 @@ describe("Create Cable Connector", () => {
     const result = await sut.execute({
       code: 123456,
       description: "3000mm Cable Connector",
+      unit: "MM",
       entranceMinValueMM: 3000,
       entranceMaxValueMM: 3000,
       exitMinValueMM: 3000,

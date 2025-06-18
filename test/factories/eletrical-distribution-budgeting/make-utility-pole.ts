@@ -13,6 +13,7 @@ export function makeUtilityPole(
     {
       code: faker.number.int({ min: 1000, max: 9999 }),
       description: faker.lorem.sentence(),
+      unit: faker.helpers.arrayElement(["UND", "M", "KG"]),
       strongSideSectionMultiplier: faker.number.float({
         min: 1.0,
         max: 2.0,

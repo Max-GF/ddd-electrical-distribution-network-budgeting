@@ -58,7 +58,7 @@ export class CreateBulkOfCablesUseCase {
         continue;
       }
 
-      const { code, description, sectionAreaInMM } = cableToCreate;
+      const { code, description, unit, sectionAreaInMM } = cableToCreate;
       if (actualCodesInRepository.has(code)) {
         failed.push({
           error: new AlreadyRegisteredError("Cable code already registered"),
@@ -69,6 +69,7 @@ export class CreateBulkOfCablesUseCase {
       const cable = Cable.create({
         code,
         description: description.toUpperCase(),
+        unit: unit.toUpperCase(),
         tension: TensionLevel.create(upperCasedTension),
         sectionAreaInMM,
       });

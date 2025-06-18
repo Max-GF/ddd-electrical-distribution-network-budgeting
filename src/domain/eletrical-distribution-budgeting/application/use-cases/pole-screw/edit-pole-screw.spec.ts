@@ -18,6 +18,7 @@ describe("Edit PoleScrew", () => {
     const poleScrewToEdit = makePoleScrew({
       code: 123456,
       description: "3000mm Pole Screw",
+      unit: "MM",
       lengthInMM: 3000,
     });
     await inMemoryPoleScrewsRepository.createMany([poleScrewToEdit]);
@@ -25,6 +26,7 @@ describe("Edit PoleScrew", () => {
     const result = await sut.execute({
       poleScrewId: poleScrewToEdit.id.toString(),
       description: "4000mm Pole Screw",
+      unit: "UND",
       lengthInMM: 4000,
     });
 

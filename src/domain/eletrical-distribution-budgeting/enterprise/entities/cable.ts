@@ -5,6 +5,7 @@ import { TensionLevel } from "./value-objects/tension-level";
 export interface CableProps {
   code: number;
   description: string;
+  unit: string;
 
   tension: TensionLevel;
   sectionAreaInMM: number;
@@ -23,6 +24,12 @@ export class Cable extends Entity<CableProps> {
   }
   set description(description: string) {
     this.props.description = description;
+  }
+  get unit(): string {
+    return this.props.unit;
+  }
+  set unit(unit: string) {
+    this.props.unit = unit;
   }
   get tension(): TensionLevel {
     return this.props.tension;

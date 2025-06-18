@@ -10,6 +10,7 @@ import { UtilityPolesRepository } from "../../repositories/utility-poles-reposit
 interface EditUtilityPoleUseCaseRequest {
   utilityPoleId: string;
   description?: string;
+  unit?: string;
 
   strongSideSectionMultiplier?: number;
 
@@ -55,6 +56,7 @@ export class EditUtilityPoleUseCase {
     const {
       utilityPoleId,
       description,
+      unit,
       strongSideSectionMultiplier,
       mediumVoltageLevelsCount,
       mediumVoltageStartSectionLengthInMM,
@@ -81,7 +83,10 @@ export class EditUtilityPoleUseCase {
       );
     }
 
-    if (description && description !== utilityPoleToEdit.description) {
+    if (
+      description &&
+      description.toUpperCase() !== utilityPoleToEdit.description
+    ) {
       utilityPoleToEdit.description = description.toUpperCase();
       hasToEdit = true;
     }
@@ -154,6 +159,10 @@ export class EditUtilityPoleUseCase {
         new NotAllowedError("Utility pole must have at least one level count"),
       );
     }
+    if (unit && unit.toUpperCase() !== utilityPoleToEdit.unit) {
+      utilityPoleToEdit.unit = unit.toUpperCase();
+      hasToEdit = true;
+    }
 
     if (hasToEdit) {
       await this.utilityPolesRepository.save(utilityPoleToEdit);
@@ -174,7 +183,10 @@ export class EditUtilityPoleUseCase {
     editUtilityPoleUseCaseRequest: EditUtilityPoleUseCaseRequest,
   ): boolean {
     return Object.entries(editUtilityPoleUseCaseRequest)
-      .filter(([key]) => key !== "utilityPoleId" && key !== "description")
+      .filter(
+        ([key]) =>
+          key !== "utilityPoleId" && key !== "description" && key !== "unit",
+      )
       .some(([, value]) => value < 0);
   }
 }

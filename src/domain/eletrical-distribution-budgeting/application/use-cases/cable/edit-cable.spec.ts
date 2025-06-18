@@ -19,6 +19,7 @@ describe("Edit Cable", () => {
     const cableToEdit = makeCable({
       code: 123456,
       description: "3000mm Cable",
+      unit: "MM",
       sectionAreaInMM: 3000,
       tension: TensionLevel.create("LOW"),
     });
@@ -27,6 +28,7 @@ describe("Edit Cable", () => {
     const result = await sut.execute({
       cableId: cableToEdit.id.toString(),
       description: "4000mm Cable",
+      unit: "kg",
       sectionAreaInMM: 4000,
       tension: "MEDIUM",
     });
@@ -39,6 +41,7 @@ describe("Edit Cable", () => {
         "4000MM CABLE",
       );
       expect(inMemoryCablesRepository.items[0].tension.value).toBe("MEDIUM");
+      expect(inMemoryCablesRepository.items[0].unit).toBe("KG");
     }
   });
 
@@ -46,6 +49,7 @@ describe("Edit Cable", () => {
     const cableToEdit = makeCable({
       code: 123456,
       description: "3000mm Cable",
+      unit: "MM",
       sectionAreaInMM: 3000,
     });
     await inMemoryCablesRepository.createMany([cableToEdit]);
@@ -53,6 +57,7 @@ describe("Edit Cable", () => {
     const result = await sut.execute({
       cableId: cableToEdit.id.toString(),
       description: "4000mm Cable",
+      unit: "kg",
       sectionAreaInMM: -4000,
     });
 

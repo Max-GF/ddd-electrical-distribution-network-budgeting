@@ -18,6 +18,7 @@ describe("Edit Utility Pole", () => {
     const utilityPoleToEdit = makeUtilityPole({
       code: 123456,
       description: "9/400 DT Utility Pole",
+      unit: "UND",
 
       strongSideSectionMultiplier: 1.5,
 
@@ -34,6 +35,7 @@ describe("Edit Utility Pole", () => {
     const result = await sut.execute({
       utilityPoleId: utilityPoleToEdit.id.toString(),
       description: "11/600 R Utility Pole",
+      unit: "UND 2",
 
       strongSideSectionMultiplier: 1.2,
 
@@ -58,6 +60,7 @@ describe("Edit Utility Pole", () => {
     const utilityPoleToEdit = makeUtilityPole({
       code: 123456,
       description: "9/400 DT Utility Pole",
+      unit: "UND",
 
       strongSideSectionMultiplier: 1.5,
 
@@ -74,6 +77,7 @@ describe("Edit Utility Pole", () => {
     const result = await sut.execute({
       utilityPoleId: utilityPoleToEdit.id.toString(),
       description: "11/600 R Utility Pole",
+      unit: "UND 2",
 
       strongSideSectionMultiplier: 1.2,
 
@@ -99,6 +103,7 @@ describe("Edit Utility Pole", () => {
     const utilityPoleToEdit = makeUtilityPole({
       code: 123456,
       description: "9/400 DT Utility Pole",
+      unit: "UND",
 
       strongSideSectionMultiplier: 1.5,
 
@@ -115,6 +120,7 @@ describe("Edit Utility Pole", () => {
     const result = await sut.execute({
       utilityPoleId: utilityPoleToEdit.id.toString(),
       description: "11/600 R Utility Pole",
+      unit: "UND 2",
 
       strongSideSectionMultiplier: 0.9,
 
@@ -140,6 +146,7 @@ describe("Edit Utility Pole", () => {
     const utilityPoleToEdit = makeUtilityPole({
       code: 123456,
       description: "9/400 DT Utility Pole",
+      unit: "UND",
 
       strongSideSectionMultiplier: 1.5,
 
@@ -157,6 +164,7 @@ describe("Edit Utility Pole", () => {
     const result = await sut.execute({
       utilityPoleId: utilityPoleToEdit.id.toString(),
       description: "11/600 R Utility Pole",
+      unit: "UND 2",
 
       strongSideSectionMultiplier: 2,
 
@@ -193,6 +201,7 @@ describe("Edit Utility Pole", () => {
     const result = await sut.execute({
       utilityPoleId: "UnexistingUtilityPoleId",
       description: "11/600 R Utility Pole",
+      unit: "UND 2",
 
       strongSideSectionMultiplier: 1.2,
 

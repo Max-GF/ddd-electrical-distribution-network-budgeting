@@ -4,6 +4,7 @@ import { UniqueEntityID } from "src/core/entities/unique-entity-id";
 export interface CableConnectorProps {
   code: number;
   description: string;
+  unit: string;
 
   entranceMinValueMM: number;
   entranceMaxValueMM: number;
@@ -25,6 +26,12 @@ export class CableConnector extends Entity<CableConnectorProps> {
   }
   set description(description: string) {
     this.props.description = description;
+  }
+  get unit(): string {
+    return this.props.unit;
+  }
+  set unit(unit: string) {
+    this.props.unit = unit;
   }
   get entranceMinValueMM(): number {
     return this.props.entranceMinValueMM;

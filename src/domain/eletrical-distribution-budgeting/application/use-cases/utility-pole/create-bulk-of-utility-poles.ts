@@ -68,7 +68,7 @@ export class CreateBulkOfUtilityPolesUseCase {
         });
         continue;
       }
-      const { code, description, ...othersProps } = utilityPoleToCreate;
+      const { code, description, unit, ...othersProps } = utilityPoleToCreate;
       if (actualCodesInRepository.has(code)) {
         failed.push({
           error: new AlreadyRegisteredError(
@@ -81,6 +81,7 @@ export class CreateBulkOfUtilityPolesUseCase {
       const utilityPole = UtilityPole.create({
         code,
         description: description.toUpperCase(),
+        unit: unit.toUpperCase(),
         ...othersProps,
       });
       created.push(utilityPole);
@@ -99,7 +100,9 @@ export class CreateBulkOfUtilityPolesUseCase {
     utilityPoleToCreate: CreateUtilityPoleUseCaseRequest,
   ): boolean {
     return Object.entries(utilityPoleToCreate)
-      .filter(([key]) => key !== "code" && key !== "description")
+      .filter(
+        ([key]) => key !== "code" && key !== "description" && key !== "unit",
+      )
       .some(([, value]) => value < 0);
   }
 }

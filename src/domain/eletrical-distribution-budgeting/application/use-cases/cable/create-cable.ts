@@ -10,6 +10,7 @@ import { CablesRepository } from "../../repositories/cables-repository";
 export interface CreateCableUseCaseRequest {
   code: number;
   description: string;
+  unit: string;
 
   tension: string;
   sectionAreaInMM: number;
@@ -29,6 +30,7 @@ export class CreateCableUseCase {
   async execute({
     code,
     description,
+    unit,
     tension,
     sectionAreaInMM,
   }: CreateCableUseCaseRequest): Promise<CreateCableUseCaseResponse> {
@@ -55,6 +57,7 @@ export class CreateCableUseCase {
     const cable = Cable.create({
       code,
       description: description.toUpperCase(),
+      unit: unit.toUpperCase(),
       tension: TensionLevel.create(upperCasedTension),
       sectionAreaInMM,
     });

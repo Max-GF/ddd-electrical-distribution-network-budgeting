@@ -18,24 +18,28 @@ describe("Create bulk of Pole Screw", () => {
       cablesToCreate.push({
         code: i + 1,
         description: `Cable ${i + 1}`,
+        unit: "KG",
         tension: i % 2 === 0 ? "LOW" : "MEDIUM",
         sectionAreaInMM: 1000 + i * 200,
       });
       cablesToCreate.push({
         code: i + 100,
         description: `Cable ${i + 1}`,
+        unit: "KG",
         sectionAreaInMM: -1,
         tension: i % 2 === 0 ? "LOW" : "MEDIUM",
       });
       cablesToCreate.push({
         code: i + 200,
         description: `Cable ${i + 1}`,
+        unit: "KG",
         sectionAreaInMM: 1000 + i * 200,
         tension: "HIGH",
       });
       cablesToCreate.push({
         code: i + 1,
         description: `Cable ${i + 1}`,
+        unit: "KG",
         sectionAreaInMM: 1000 + i * 200,
         tension: "LOW",
       });

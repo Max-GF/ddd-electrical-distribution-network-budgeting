@@ -18,6 +18,7 @@ describe("Create Pole Screw", () => {
     const result = await sut.execute({
       code: 123456,
       description: "3000mm Pole Screw",
+      unit: "UND",
       lengthInMM: 3000,
     });
 
@@ -35,6 +36,7 @@ describe("Create Pole Screw", () => {
     const result = await sut.execute({
       code: 123456,
       description: "3000mm Pole Screw",
+      unit: "UND",
       lengthInMM: -3000,
     });
 
@@ -57,6 +59,7 @@ describe("Create Pole Screw", () => {
     const result = await sut.execute({
       code: 123456,
       description: "3000mm Pole Screw",
+      unit: "UND",
       lengthInMM: 3000,
     });
 

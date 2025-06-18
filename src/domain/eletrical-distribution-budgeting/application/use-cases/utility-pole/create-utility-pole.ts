@@ -9,6 +9,7 @@ import { UtilityPolesRepository } from "../../repositories/utility-poles-reposit
 export interface CreateUtilityPoleUseCaseRequest {
   code: number;
   description: string;
+  unit: string;
 
   strongSideSectionMultiplier: number;
 
@@ -58,7 +59,7 @@ export class CreateUtilityPoleUseCase {
         new NotAllowedError("Utility pole must have at least one level count"),
       );
     }
-    const { code, description, ...otherProps } =
+    const { code, description, unit, ...otherProps } =
       createUtilityPoleUseCaseRequest;
     const utilityPoleWithSameCode =
       await this.utilityPolesRepository.findByCode(code);
@@ -71,6 +72,7 @@ export class CreateUtilityPoleUseCase {
     const utilityPole = UtilityPole.create({
       code,
       description: description.toUpperCase(),
+      unit: unit.toUpperCase(),
       ...otherProps,
     });
     await this.utilityPolesRepository.createMany([utilityPole]);
@@ -82,7 +84,9 @@ export class CreateUtilityPoleUseCase {
     createUtilityPoleUseCaseRequest: CreateUtilityPoleUseCaseRequest,
   ): boolean {
     return Object.entries(createUtilityPoleUseCaseRequest)
-      .filter(([key]) => key !== "code" && key !== "description")
+      .filter(
+        ([key]) => key !== "code" && key !== "description" && key !== "unit",
+      )
       .some(([, value]) => value < 0);
   }
 }

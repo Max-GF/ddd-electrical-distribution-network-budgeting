@@ -10,6 +10,7 @@ import { CableConnectorsRepository } from "../../repositories/cable-connectors-r
 interface EditCableConnectorUseCaseRequest {
   cableConnectorId: string;
   description?: string;
+  unit?: string;
 
   entranceMinValueMM?: number;
   entranceMaxValueMM?: number;
@@ -51,6 +52,7 @@ export class EditCableConnectorUseCase {
     const {
       cableConnectorId,
       description,
+      unit,
       entranceMinValueMM,
       entranceMaxValueMM,
       exitMinValueMM,
@@ -112,6 +114,10 @@ export class EditCableConnectorUseCase {
       cableConnectorToEdit.exitMaxValueMM = exitMaxValueMM;
       hasToEdit = true;
     }
+    if (unit && unit.toUpperCase() !== cableConnectorToEdit.unit) {
+      cableConnectorToEdit.unit = unit.toUpperCase();
+      hasToEdit = true;
+    }
 
     if (hasToEdit) {
       await this.cableConnectorsRepository.save(cableConnectorToEdit);
@@ -132,7 +138,10 @@ export class EditCableConnectorUseCase {
     cableConnectorToEdit: EditCableConnectorUseCaseRequest,
   ): boolean {
     return Object.entries(cableConnectorToEdit)
-      .filter(([key]) => key !== "cableConnectorId" && key !== "description")
+      .filter(
+        ([key]) =>
+          key !== "cableConnectorId" && key !== "description" && key !== "unit",
+      )
       .some(([, value]) => value < 0);
   }
 }

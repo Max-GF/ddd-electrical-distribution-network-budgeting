@@ -14,6 +14,7 @@ export function makeCable(
     {
       code: faker.number.int({ min: 1000, max: 9999 }),
       description: faker.lorem.sentence(),
+      unit: faker.helpers.arrayElement(["UND", "M", "KG"]),
       sectionAreaInMM: faker.number.int({ min: 100, max: 1000 }),
       tension: TensionLevel.create(
         faker.helpers.arrayElement(["LOW", "MEDIUM"]),

@@ -70,7 +70,8 @@ export class CreateBulkOfCableConnectorsUseCase {
         });
         continue;
       }
-      const { code, description, ...othersProps } = cableConnectorToCreate;
+      const { code, description, unit, ...othersProps } =
+        cableConnectorToCreate;
       if (actualCodesInRepository.has(code)) {
         failed.push({
           error: new AlreadyRegisteredError(
@@ -83,6 +84,7 @@ export class CreateBulkOfCableConnectorsUseCase {
       const cableConnector = CableConnector.create({
         code,
         description: description.toUpperCase(),
+        unit: unit.toUpperCase(),
         ...othersProps,
       });
       created.push(cableConnector);
@@ -101,7 +103,9 @@ export class CreateBulkOfCableConnectorsUseCase {
     cableConnectorToCreate: CreateCableConnectorUseCaseRequest,
   ): boolean {
     return Object.entries(cableConnectorToCreate)
-      .filter(([key]) => key !== "code" && key !== "description")
+      .filter(
+        ([key]) => key !== "code" && key !== "description" && key !== "unit",
+      )
       .some(([, value]) => value < 0);
   }
 }

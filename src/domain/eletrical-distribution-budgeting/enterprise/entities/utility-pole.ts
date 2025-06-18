@@ -4,6 +4,7 @@ import { UniqueEntityID } from "src/core/entities/unique-entity-id";
 export interface UtilityPoleProps {
   code: number;
   description: string;
+  unit: string;
 
   strongSideSectionMultiplier: number;
 
@@ -29,6 +30,12 @@ export class UtilityPole extends Entity<UtilityPoleProps> {
   }
   set description(description: string) {
     this.props.description = description;
+  }
+  get unit(): string {
+    return this.props.unit;
+  }
+  set unit(unit: string) {
+    this.props.unit = unit;
   }
   get strongSideSectionMultiplier(): number {
     return this.props.strongSideSectionMultiplier;

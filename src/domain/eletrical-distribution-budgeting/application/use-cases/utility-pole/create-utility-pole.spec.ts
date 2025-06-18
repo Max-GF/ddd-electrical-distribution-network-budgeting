@@ -19,6 +19,7 @@ describe("Create Utility Pole", () => {
     const result = await sut.execute({
       code: 123456,
       description: "9/400 DT Utility Pole",
+      unit: "UND",
 
       strongSideSectionMultiplier: 1.5,
 
@@ -44,6 +45,7 @@ describe("Create Utility Pole", () => {
     const result = await sut.execute({
       code: 123456,
       description: "11/400 R Utility Pole",
+      unit: "UND",
 
       strongSideSectionMultiplier: 1,
 
@@ -69,6 +71,7 @@ describe("Create Utility Pole", () => {
     const result = await sut.execute({
       code: 123456,
       description: "11/400 R Utility Pole",
+      unit: "UND",
 
       strongSideSectionMultiplier: 1,
 
@@ -95,6 +98,7 @@ describe("Create Utility Pole", () => {
     const result = await sut.execute({
       code: 123456,
       description: "11/400 R Utility Pole",
+      unit: "UND",
 
       strongSideSectionMultiplier: 0.5,
 
@@ -121,6 +125,7 @@ describe("Create Utility Pole", () => {
     const result = await sut.execute({
       code: 123456,
       description: "11/400 R Utility Pole",
+      unit: "UND",
 
       strongSideSectionMultiplier: 1,
 
@@ -153,6 +158,7 @@ describe("Create Utility Pole", () => {
     const result = await sut.execute({
       code: 123456,
       description: "11/400 R Utility Pole",
+      unit: "UND",
 
       strongSideSectionMultiplier: 1,
 

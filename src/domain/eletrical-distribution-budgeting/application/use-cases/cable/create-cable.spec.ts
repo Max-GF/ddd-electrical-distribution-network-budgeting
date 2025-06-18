@@ -19,6 +19,7 @@ describe("Create Cable", () => {
     const result = await sut.execute({
       code: 123456,
       description: "3000mm Cable",
+      unit: "MM",
       sectionAreaInMM: 1000,
       tension: "LOW",
     });
@@ -36,6 +37,7 @@ describe("Create Cable", () => {
     const result = await sut.execute({
       code: 123456,
       description: "3000mm cable",
+      unit: "MM",
       sectionAreaInMM: 32132,
       tension: "LOW",
     });
@@ -52,6 +54,7 @@ describe("Create Cable", () => {
     const result = await sut.execute({
       code: 123456,
       description: "3000mm cable",
+      unit: "MM",
       sectionAreaInMM: 0,
       tension: "LOW",
     });
@@ -70,6 +73,7 @@ describe("Create Cable", () => {
     const result = await sut.execute({
       code: 123456,
       description: "3000mm cable",
+      unit: "MM",
       sectionAreaInMM: 1000,
       tension: "HIGH",
     });

@@ -10,6 +10,7 @@ import { PoleScrewsRepository } from "../../repositories/pole-screws-repository"
 interface EditPoleScrewUseCaseRequest {
   poleScrewId: string;
   description?: string;
+  unit?: string;
 
   lengthInMM?: number;
 }
@@ -37,7 +38,7 @@ export class EditPoleScrewUseCase {
       return left(new NotAllowedError("No entries provided"));
     }
 
-    const { poleScrewId, description, lengthInMM } =
+    const { poleScrewId, description, lengthInMM, unit } =
       editPoleScrewUseCaseRequest;
 
     if (lengthInMM && lengthInMM <= 0) {
@@ -53,12 +54,19 @@ export class EditPoleScrewUseCase {
       return left(new ResourceNotFoundError("Given pole screw was not found"));
     }
 
-    if (description && description !== poleScrewToEdit.description) {
+    if (
+      description &&
+      description.toUpperCase() !== poleScrewToEdit.description
+    ) {
       poleScrewToEdit.description = description.toUpperCase();
       hasToEdit = true;
     }
     if (lengthInMM && lengthInMM !== poleScrewToEdit.lengthInMM) {
       poleScrewToEdit.lengthInMM = lengthInMM;
+      hasToEdit = true;
+    }
+    if (unit && unit.toUpperCase() !== poleScrewToEdit.unit) {
+      poleScrewToEdit.unit = unit.toUpperCase();
       hasToEdit = true;
     }
 

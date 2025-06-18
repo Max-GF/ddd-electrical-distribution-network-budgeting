@@ -14,6 +14,7 @@ export function makePoleScrew(
       code: faker.number.int({ min: 1000, max: 9999 }),
       description: faker.lorem.sentence(),
       lengthInMM: faker.number.int({ min: 1000, max: 10000 }),
+      unit: faker.helpers.arrayElement(["UND", "M", "MM", "KG"]),
       ...override,
     },
     id,

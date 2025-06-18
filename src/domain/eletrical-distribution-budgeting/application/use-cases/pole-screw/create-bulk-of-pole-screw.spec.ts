@@ -19,16 +19,19 @@ describe("Create bulk of Pole Screw", () => {
         code: i + 1,
         description: `Pole Screw ${i + 1}`,
         lengthInMM: 1000 + i * 100,
+        unit: "UND",
       });
       poleScrewsToCreate.push({
         code: i + 1,
         description: `Pole Screw ${i + 1}`,
         lengthInMM: -1,
+        unit: "UND",
       });
       poleScrewsToCreate.push({
         code: i + 1,
         description: `Pole Screw ${i + 1}`,
         lengthInMM: 1000 + i * 200,
+        unit: "UND",
       });
     }
     const result = await sut.execute(poleScrewsToCreate);

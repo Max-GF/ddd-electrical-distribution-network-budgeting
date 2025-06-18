@@ -20,6 +20,7 @@ describe("Create a bulk of Cable Connectors", () => {
       cableConnectorsToCreate.push({
         code: i + 1,
         description: `Cable Connector ${i + 1}`,
+        unit: "MM",
         entranceMinValueMM: 1000 + i * 100,
         entranceMaxValueMM: 1001 + i * 100,
         exitMinValueMM: 1000 + i * 100,
@@ -28,6 +29,7 @@ describe("Create a bulk of Cable Connectors", () => {
       cableConnectorsToCreate.push({
         code: i + 1000,
         description: `Cable Strap ${i + 1}`,
+        unit: "MM",
         entranceMinValueMM: 1000 + i * 50,
         entranceMaxValueMM: 1001 + i * 50,
         exitMinValueMM: 0,
@@ -36,6 +38,7 @@ describe("Create a bulk of Cable Connectors", () => {
       cableConnectorsToCreate.push({
         code: i + 1,
         description: `Cable Connector ${i + 1}`,
+        unit: "MM",
         entranceMinValueMM: 2000 + i * 100,
         entranceMaxValueMM: 2001 + i * 100,
         exitMinValueMM: 1000 + i * 100,
@@ -44,6 +47,7 @@ describe("Create a bulk of Cable Connectors", () => {
       cableConnectorsToCreate.push({
         code: i + 2000,
         description: `Cable Connector ${i + 1}`,
+        unit: "MM",
         entranceMinValueMM: -1,
         entranceMaxValueMM: 2000 + i * 100,
         exitMinValueMM: 1000 + i * 100,
@@ -52,6 +56,7 @@ describe("Create a bulk of Cable Connectors", () => {
       cableConnectorsToCreate.push({
         code: i + 3000,
         description: `Cable Connector ${i + 1}`,
+        unit: "MM",
         entranceMinValueMM: 2001 + i * 100,
         entranceMaxValueMM: 2000 + i * 100,
         exitMinValueMM: 1000 + i * 100,
@@ -60,6 +65,7 @@ describe("Create a bulk of Cable Connectors", () => {
       cableConnectorsToCreate.push({
         code: i + 4000,
         description: `Cable Connector ${i + 1}`,
+        unit: "MM",
         entranceMinValueMM: 2000 + i * 100,
         entranceMaxValueMM: 2001 + i * 100,
         exitMinValueMM: 1001 + i * 100,

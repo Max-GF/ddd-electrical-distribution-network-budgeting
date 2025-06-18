@@ -18,6 +18,7 @@ describe("Create bulk of Utility Poles", () => {
       utilityPolesToCreate.push({
         code: 1000 + i,
         description: `Utility Pole ${i}`,
+        unit: "UND",
         strongSideSectionMultiplier: 1.5,
         mediumVoltageLevelsCount: 3,
         mediumVoltageStartSectionLengthInMM: 2000,
@@ -29,6 +30,7 @@ describe("Create bulk of Utility Poles", () => {
       utilityPolesToCreate.push({
         code: 1010 + i,
         description: `Utility Pole ${i + 10}`,
+        unit: "UND",
         strongSideSectionMultiplier: 0.9,
         mediumVoltageLevelsCount: 3,
         mediumVoltageStartSectionLengthInMM: 2000,
@@ -40,6 +42,7 @@ describe("Create bulk of Utility Poles", () => {
       utilityPolesToCreate.push({
         code: 1020 + i,
         description: `Utility Pole ${i + 20}`,
+        unit: "UND",
         strongSideSectionMultiplier: 1.9,
         mediumVoltageLevelsCount: 0,
         mediumVoltageStartSectionLengthInMM: 2000,
@@ -51,6 +54,7 @@ describe("Create bulk of Utility Poles", () => {
       utilityPolesToCreate.push({
         code: 1030 + i,
         description: `Utility Pole ${i + 30}`,
+        unit: "UND",
         strongSideSectionMultiplier: 1.9,
         mediumVoltageLevelsCount: 2,
         mediumVoltageStartSectionLengthInMM: -2000,
@@ -62,6 +66,7 @@ describe("Create bulk of Utility Poles", () => {
       utilityPolesToCreate.push({
         code: 1000 + i,
         description: `Utility Pole ${i + 40}`,
+        unit: "UND",
         strongSideSectionMultiplier: 1.9,
         mediumVoltageLevelsCount: 2,
         mediumVoltageStartSectionLengthInMM: 2000,
