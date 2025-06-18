@@ -1,15 +1,15 @@
 import { Entity } from "src/core/entities/entity";
 import { UniqueEntityID } from "src/core/entities/unique-entity-id";
 
-export interface CableConnectorProps {
+export interface MaterialProps {
   code: number;
   description: string;
   unit: string;
 }
 
-export class CableConnector extends Entity<CableConnectorProps> {
-  static create(props: CableConnectorProps, id?: UniqueEntityID) {
-    const cable = new CableConnector(props, id);
+export class Material extends Entity<MaterialProps> {
+  static create(props: MaterialProps, id?: UniqueEntityID) {
+    const cable = new Material(props, id);
     return cable;
   }
   get code(): number {
