@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { Either, left, right } from "src/core/either";
 import { NotAllowedError } from "src/core/errors/generics/not-allowed-error";
 import { PaginationResponseParams } from "src/core/repositories/pagination-params";
-import { CableConnector } from "src/domain/eletrical-distribution-budgeting/enterprise/entities/cable-connectors";
+import { CableConnector } from "src/domain/eletrical-distribution-budgeting/enterprise/entities/cable-connector";
 import { CableConnectorsRepository } from "../../repositories/cable-connectors-repository";
 
 interface FetchWithFilterCableConnectorUseCaseRequest {

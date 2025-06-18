@@ -2,7 +2,7 @@ import {
   PaginationParams,
   PaginationResponseParams,
 } from "src/core/repositories/pagination-params";
-import { CableConnector } from "../../enterprise/entities/cable-connectors";
+import { CableConnector } from "../../enterprise/entities/cable-connector";
 
 export interface FetchCableConnectorsFilterOptions {
   codes?: number[];

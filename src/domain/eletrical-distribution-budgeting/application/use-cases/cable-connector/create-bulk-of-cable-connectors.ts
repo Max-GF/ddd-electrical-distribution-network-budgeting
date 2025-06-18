@@ -3,7 +3,7 @@ import { Either, right } from "src/core/either";
 import { NegativeCableSectionError } from "src/core/errors/erros-eletrical-distribution-budgeting/negative-cable-section-length-error";
 import { AlreadyRegisteredError } from "src/core/errors/generics/already-registered-error";
 import { NotAllowedError } from "src/core/errors/generics/not-allowed-error";
-import { CableConnector } from "src/domain/eletrical-distribution-budgeting/enterprise/entities/cable-connectors";
+import { CableConnector } from "src/domain/eletrical-distribution-budgeting/enterprise/entities/cable-connector";
 import { CableConnectorsRepository } from "../../repositories/cable-connectors-repository";
 import { CreateCableConnectorUseCaseRequest } from "./create-cable-connector";
 

@@ -3,7 +3,7 @@ import { UniqueEntityID } from "src/core/entities/unique-entity-id";
 import {
   CableConnector,
   CableConnectorProps,
-} from "src/domain/eletrical-distribution-budgeting/enterprise/entities/cable-connectors";
+} from "src/domain/eletrical-distribution-budgeting/enterprise/entities/cable-connector";
 
 export function makeCableConnector(
   override: Partial<CableConnectorProps> = {},

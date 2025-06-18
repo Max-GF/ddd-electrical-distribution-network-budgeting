@@ -4,7 +4,7 @@ import { NegativeCableSectionError } from "src/core/errors/erros-eletrical-distr
 import { AlreadyRegisteredError } from "src/core/errors/generics/already-registered-error";
 import { NotAllowedError } from "src/core/errors/generics/not-allowed-error";
 import { ResourceNotFoundError } from "src/core/errors/generics/resource-not-found-error";
-import { CableConnector } from "src/domain/eletrical-distribution-budgeting/enterprise/entities/cable-connectors";
+import { CableConnector } from "src/domain/eletrical-distribution-budgeting/enterprise/entities/cable-connector";
 import { CableConnectorsRepository } from "../../repositories/cable-connectors-repository";
 
 interface EditCableConnectorUseCaseRequest {

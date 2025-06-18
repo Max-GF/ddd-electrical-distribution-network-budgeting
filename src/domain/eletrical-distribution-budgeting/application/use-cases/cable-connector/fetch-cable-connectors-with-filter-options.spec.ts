@@ -1,4 +1,4 @@
-import { CableConnector } from "src/domain/eletrical-distribution-budgeting/enterprise/entities/cable-connectors";
+import { CableConnector } from "src/domain/eletrical-distribution-budgeting/enterprise/entities/cable-connector";
 import { makeCableConnector } from "test/factories/eletrical-distribution-budgeting/make-cable-connectors";
 import { InMemoryCableConnectorsRepository } from "test/repositories/eletrical-distribution-budgeting/in-memory-cable-connectors-repository";
 import { FetchWithFilterCableConnectorUseCase } from "./fetch-cable-connectors-with-filter-options";

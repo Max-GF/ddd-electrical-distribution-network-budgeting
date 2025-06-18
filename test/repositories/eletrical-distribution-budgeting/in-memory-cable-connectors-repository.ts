@@ -6,7 +6,7 @@ import {
   CableConnectorsRepository,
   FetchCableConnectorsFilterOptions,
 } from "src/domain/eletrical-distribution-budgeting/application/repositories/cable-connectors-repository";
-import { CableConnector } from "src/domain/eletrical-distribution-budgeting/enterprise/entities/cable-connectors";
+import { CableConnector } from "src/domain/eletrical-distribution-budgeting/enterprise/entities/cable-connector";
 
 export class InMemoryCableConnectorsRepository
   implements CableConnectorsRepository
