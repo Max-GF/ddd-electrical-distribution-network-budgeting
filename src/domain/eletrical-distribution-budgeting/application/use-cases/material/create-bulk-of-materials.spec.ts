@@ -19,20 +19,35 @@ describe("Create bulk of Material", () => {
         code: i + 1,
         description: `Material ${i + 1}`,
         unit: "UND",
+        tension: i % 2 === 0 ? "low" : "medium",
       });
       materialsToCreate.push({
         code: i + 1,
         description: `Material ${i + 1}`,
         unit: "UND",
+        tension: "medium",
+      });
+      materialsToCreate.push({
+        code: i + 1000,
+        description: `Material ${i + 1}`,
+        unit: "UND",
+        tension: "high",
       });
     }
     const result = await sut.execute(materialsToCreate);
     expect(inMemoryMaterialsRepository.items).toHaveLength(10);
     expect(result.value.created).toHaveLength(10);
-    expect(result.value.failed).toHaveLength(10);
+    expect(result.value.failed).toHaveLength(20);
     expect(
       result.value.failed.filter(
         (item) => item.error.message === "Material code already registered",
+      ),
+    ).toHaveLength(10);
+    expect(
+      result.value.failed.filter(
+        (item) =>
+          item.error.message ===
+          `Invalid tension level: high. Valid values are: LOW, MEDIUM.`,
       ),
     ).toHaveLength(10);
   });

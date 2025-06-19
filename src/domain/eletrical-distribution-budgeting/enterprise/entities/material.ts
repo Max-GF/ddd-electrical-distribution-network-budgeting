@@ -1,10 +1,12 @@
 import { Entity } from "src/core/entities/entity";
 import { UniqueEntityID } from "src/core/entities/unique-entity-id";
+import { TensionLevel } from "./value-objects/tension-level";
 
 export interface MaterialProps {
   code: number;
   description: string;
   unit: string;
+  tension: TensionLevel;
 }
 
 export class Material extends Entity<MaterialProps> {
@@ -26,5 +28,11 @@ export class Material extends Entity<MaterialProps> {
   }
   set unit(value: string) {
     this.props.unit = value;
+  }
+  get tension(): TensionLevel {
+    return this.props.tension;
+  }
+  set tension(tension: TensionLevel) {
+    this.props.tension = tension;
   }
 }

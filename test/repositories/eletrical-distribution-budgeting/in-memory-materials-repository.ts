@@ -42,13 +42,16 @@ export class InMemoryMaterialsRepository implements MaterialsRepository {
     materials: Material[];
     pagination: PaginationResponseParams;
   }> {
-    const { page = 1, perPage = 10 } = paginationParams;
-    const { description, codes } = filterOptions;
+    const { page, perPage } = paginationParams;
+    const { description, codes, tension } = filterOptions;
     const filteredMaterials = this.items.filter((material) => {
       if (description && !material.description.includes(description)) {
         return false;
       }
       if (codes && !codes.includes(material.code)) {
+        return false;
+      }
+      if (tension && material.tension.value !== tension) {
         return false;
       }
       return true;

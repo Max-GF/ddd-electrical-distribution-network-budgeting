@@ -1,5 +1,6 @@
 import { NotAllowedError } from "src/core/errors/generics/not-allowed-error";
 import { ResourceNotFoundError } from "src/core/errors/generics/resource-not-found-error";
+import { TensionLevel } from "src/domain/eletrical-distribution-budgeting/enterprise/entities/value-objects/tension-level";
 import { makeMaterial } from "test/factories/eletrical-distribution-budgeting/make-material";
 import { InMemoryMaterialsRepository } from "test/repositories/eletrical-distribution-budgeting/in-memory-materials-repository";
 import { EditMaterialUseCase } from "./edit-material";
@@ -18,6 +19,7 @@ describe("Edit Material", () => {
       code: 123456,
       description: "3000mm Material",
       unit: "MM",
+      tension: TensionLevel.create("LOW"),
     });
     await inMemoryMaterialsRepository.createMany([materialToEdit]);
     expect(inMemoryMaterialsRepository.items).toHaveLength(1);
@@ -25,6 +27,7 @@ describe("Edit Material", () => {
       materialId: materialToEdit.id.toString(),
       description: "4000mm Material",
       unit: "UND",
+      tension: "medium",
     });
 
     expect(inMemoryMaterialsRepository.items).toHaveLength(1);
@@ -37,6 +40,32 @@ describe("Edit Material", () => {
         "4000MM MATERIAL",
       );
       expect(inMemoryMaterialsRepository.items[0].unit).toBe("UND");
+      expect(inMemoryMaterialsRepository.items[0].tension.value).toBe("MEDIUM");
+    }
+  });
+  it("should not be able to edit a material witn invalid tension option", async () => {
+    const materialToEdit = makeMaterial({
+      code: 123456,
+      description: "3000mm Material",
+      unit: "MM",
+      tension: TensionLevel.create("LOW"),
+    });
+    await inMemoryMaterialsRepository.createMany([materialToEdit]);
+    expect(inMemoryMaterialsRepository.items).toHaveLength(1);
+    const result = await sut.execute({
+      materialId: materialToEdit.id.toString(),
+      description: "4000mm Material",
+      unit: "UND",
+      tension: "high",
+    });
+
+    expect(inMemoryMaterialsRepository.items).toHaveLength(1);
+    expect(result.isLeft()).toBeTruthy();
+    if (result.isLeft()) {
+      expect(result.value).toBeInstanceOf(NotAllowedError);
+      expect(result.value.message).toBe(
+        "Invalid tension level: high. Valid values are: LOW, MEDIUM.",
+      );
     }
   });
 

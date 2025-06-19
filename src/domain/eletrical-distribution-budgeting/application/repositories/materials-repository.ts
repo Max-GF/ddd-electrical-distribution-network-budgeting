@@ -3,10 +3,12 @@ import {
   PaginationResponseParams,
 } from "src/core/repositories/pagination-params";
 import { Material } from "../../enterprise/entities/material";
+import { TensionLevelEntries } from "../../enterprise/entities/value-objects/tension-level";
 
 export interface FetchMaterialsFilterOptions {
   codes?: number[];
   description?: string;
+  tension?: TensionLevelEntries;
 }
 
 export abstract class MaterialsRepository {

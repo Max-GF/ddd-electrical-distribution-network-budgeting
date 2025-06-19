@@ -1,19 +1,20 @@
 import { Injectable } from "@nestjs/common";
 import { Either, left, right } from "src/core/either";
-import { AlreadyRegisteredError } from "src/core/errors/generics/already-registered-error";
 import { NotAllowedError } from "src/core/errors/generics/not-allowed-error";
 import { ResourceNotFoundError } from "src/core/errors/generics/resource-not-found-error";
 import { Material } from "src/domain/eletrical-distribution-budgeting/enterprise/entities/material";
+import { TensionLevel } from "src/domain/eletrical-distribution-budgeting/enterprise/entities/value-objects/tension-level";
 import { MaterialsRepository } from "../../repositories/materials-repository";
 
 interface EditMaterialUseCaseRequest {
   materialId: string;
   description?: string;
   unit?: string;
+  tension?: string;
 }
 
 type EditMaterialUseCaseResponse = Either<
-  AlreadyRegisteredError | ResourceNotFoundError | NotAllowedError,
+  ResourceNotFoundError | NotAllowedError,
   {
     material: Material;
   }
@@ -32,7 +33,10 @@ export class EditMaterialUseCase {
       return left(new NotAllowedError("No entries provided"));
     }
 
-    const { materialId, description, unit } = editMaterialUseCaseRequest;
+    const { materialId, description, unit, tension } =
+      editMaterialUseCaseRequest;
+
+    const upperCasedTension = tension?.toLocaleUpperCase();
 
     const materialToEdit = await this.materialsRepository.findById(materialId);
 
@@ -49,6 +53,20 @@ export class EditMaterialUseCase {
     }
     if (unit && unit.toUpperCase() !== materialToEdit.unit) {
       materialToEdit.unit = unit.toUpperCase();
+      hasToEdit = true;
+    }
+    if (
+      upperCasedTension &&
+      upperCasedTension !== materialToEdit.tension.value
+    ) {
+      if (!TensionLevel.isValid(upperCasedTension)) {
+        return left(
+          new NotAllowedError(
+            `Invalid tension level: ${tension}. Valid values are: ${TensionLevel.VALID_VALUES.join(", ")}.`,
+          ),
+        );
+      }
+      materialToEdit.tension = TensionLevel.create(upperCasedTension);
       hasToEdit = true;
     }
 

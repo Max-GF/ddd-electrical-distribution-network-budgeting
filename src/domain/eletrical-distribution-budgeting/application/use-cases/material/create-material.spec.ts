@@ -18,6 +18,7 @@ describe("Create Material", () => {
       code: 123456,
       description: "Some Material",
       unit: "UND",
+      tension: "low",
     });
 
     expect(inMemoryMaterialsRepository.items).toHaveLength(1);
@@ -39,6 +40,7 @@ describe("Create Material", () => {
       code: 123456,
       description: "Some Material 2",
       unit: "UND",
+      tension: "low",
     });
 
     expect(inMemoryMaterialsRepository.items).toHaveLength(1);
