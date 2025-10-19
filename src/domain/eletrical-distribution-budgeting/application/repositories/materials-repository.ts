@@ -15,6 +15,7 @@ export abstract class MaterialsRepository {
   abstract createMany(materials: Material[]): Promise<void>;
   abstract save(material: Material): Promise<void>;
   abstract findById(id: string): Promise<Material | null>;
+  abstract findByIds(ids: string[]): Promise<Material[]>;
   abstract findByCode(code: number): Promise<Material | null>;
   abstract findAllCodes(): Promise<number[]>;
   abstract fetchWithFilter(

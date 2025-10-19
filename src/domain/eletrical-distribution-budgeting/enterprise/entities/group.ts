@@ -3,14 +3,21 @@ import { UniqueEntityID } from "src/core/entities/unique-entity-id";
 import { TensionLevel } from "./value-objects/tension-level";
 
 export interface GroupProps {
+  name: string;
   description: string;
   tension: TensionLevel;
 }
 
-export class Material extends Entity<GroupProps> {
+export class Group extends Entity<GroupProps> {
   static create(props: GroupProps, id?: UniqueEntityID) {
-    const groupMaterial = new Material(props, id);
-    return groupMaterial;
+    const group = new Group(props, id);
+    return group;
+  }
+  get name(): string {
+    return this.props.name;
+  }
+  set name(name: string) {
+    this.props.name = name;
   }
   get description(): string {
     return this.props.description;
