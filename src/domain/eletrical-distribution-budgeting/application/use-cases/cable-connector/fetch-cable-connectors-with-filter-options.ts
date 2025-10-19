@@ -16,7 +16,7 @@ interface FetchWithFilterCableConnectorUseCaseRequest {
   exitMaxValueMM?: number;
 
   page?: number;
-  perPage?: number;
+  pageSize?: number;
 }
 
 type FetchWithFilterCableConnectorUseCaseResponse = Either<
@@ -49,7 +49,7 @@ export class FetchWithFilterCableConnectorUseCase {
       exitMinValueMM,
       exitMaxValueMM,
       page,
-      perPage,
+      pageSize,
     } = fetchCableConnectorsFilterOptions;
     const { cableConnectors, pagination } =
       await this.cableConnectorsRepository.fetchWithFilter(
@@ -63,7 +63,7 @@ export class FetchWithFilterCableConnectorUseCase {
         },
         {
           page: page ?? 1,
-          perPage: perPage ?? 40,
+          pageSize: pageSize ?? 40,
         },
       );
     return right({
@@ -76,7 +76,7 @@ export class FetchWithFilterCableConnectorUseCase {
   ): boolean {
     return Object.entries(fetchCableConnectorsFilterOptions)
       .filter(
-        ([key]) => !["page", "perPage", "codes", "description"].includes(key),
+        ([key]) => !["page", "pageSize", "codes", "description"].includes(key),
       )
       .some(([, value]) => value < 0);
   }

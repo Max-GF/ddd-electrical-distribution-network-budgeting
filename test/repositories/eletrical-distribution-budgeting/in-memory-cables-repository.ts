@@ -37,7 +37,7 @@ export class InMemoryCablesRepository implements CablesRepository {
     filterOptions: FetchCablesFilterOptions,
     paginationParams: PaginationParams,
   ): Promise<{ cables: Cable[]; pagination: PaginationResponseParams }> {
-    const { page, perPage } = paginationParams;
+    const { page, pageSize } = paginationParams;
     const {
       codes,
       description,
@@ -64,14 +64,14 @@ export class InMemoryCablesRepository implements CablesRepository {
       return true;
     });
     const handedData = filteredCables
-      .slice((page - 1) * perPage, page * perPage)
+      .slice((page - 1) * pageSize, page * pageSize)
       .sort((a, b) => a.code - b.code);
     return {
       cables: handedData,
       pagination: {
         actualPage: page,
-        actualPerPage: perPage,
-        lastPage: Math.ceil(filteredCables.length / perPage),
+        actualPageSize: pageSize,
+        lastPage: Math.ceil(filteredCables.length / pageSize),
       },
     };
   }

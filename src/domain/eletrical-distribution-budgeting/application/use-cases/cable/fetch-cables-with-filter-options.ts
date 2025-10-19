@@ -15,7 +15,7 @@ interface FetchWithFilterCableUseCaseRequest {
   minSectionAreaInMM?: number;
 
   page?: number;
-  perPage?: number;
+  pageSize?: number;
 }
 
 type FetchWithFilterCableUseCaseResponse = Either<
@@ -37,7 +37,7 @@ export class FetchWithFilterCableUseCase {
     maxSectionAreaInMM,
     minSectionAreaInMM,
     page,
-    perPage,
+    pageSize,
   }: FetchWithFilterCableUseCaseRequest): Promise<FetchWithFilterCableUseCaseResponse> {
     const upperCasedTension = tension ? tension.toUpperCase() : undefined;
     if (
@@ -60,7 +60,7 @@ export class FetchWithFilterCableUseCase {
       },
       {
         page: page ?? 1,
-        perPage: perPage ?? 40,
+        pageSize: pageSize ?? 40,
       },
     );
     return right({

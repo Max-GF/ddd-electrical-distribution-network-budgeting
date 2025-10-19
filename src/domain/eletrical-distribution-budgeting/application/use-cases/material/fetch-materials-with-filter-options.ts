@@ -12,7 +12,7 @@ interface FetchWithFilterMaterialsUseCaseRequest {
   tension?: string;
 
   page?: number;
-  perPage?: number;
+  pageSize?: number;
 }
 
 type FetchWithFilterMaterialsUseCaseResponse = Either<
@@ -32,7 +32,7 @@ export class FetchWithFilterMaterialsUseCase {
     description,
     tension,
     page,
-    perPage,
+    pageSize,
   }: FetchWithFilterMaterialsUseCaseRequest): Promise<FetchWithFilterMaterialsUseCaseResponse> {
     const upperCasedTension = tension ? tension.toUpperCase() : undefined;
     if (
@@ -54,7 +54,7 @@ export class FetchWithFilterMaterialsUseCase {
         },
         {
           page: page ?? 1,
-          perPage: perPage ?? 40,
+          pageSize: pageSize ?? 40,
         },
       );
     return right({

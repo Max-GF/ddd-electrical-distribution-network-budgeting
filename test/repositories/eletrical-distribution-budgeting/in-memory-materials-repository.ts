@@ -27,6 +27,12 @@ export class InMemoryMaterialsRepository implements MaterialsRepository {
     );
     return foundedMaterial ?? null;
   }
+  async findByIds(ids: string[]): Promise<Material[]> {
+    const foundedMaterials = this.items.filter((item) =>
+      ids.includes(item.id.toString()),
+    );
+    return foundedMaterials;
+  }
   async findByCode(code: number): Promise<Material | null> {
     const foundedMaterial = this.items.find((item) => item.code === code);
     return foundedMaterial ?? null;
@@ -42,7 +48,7 @@ export class InMemoryMaterialsRepository implements MaterialsRepository {
     materials: Material[];
     pagination: PaginationResponseParams;
   }> {
-    const { page, perPage } = paginationParams;
+    const { page, pageSize } = paginationParams;
     const { description, codes, tension } = filterOptions;
     const filteredMaterials = this.items.filter((material) => {
       if (description && !material.description.includes(description)) {
@@ -57,15 +63,15 @@ export class InMemoryMaterialsRepository implements MaterialsRepository {
       return true;
     });
     const handedData = filteredMaterials
-      .slice((page - 1) * perPage, page * perPage)
+      .slice((page - 1) * pageSize, page * pageSize)
       .sort((a, b) => a.code - b.code);
 
     return {
       materials: handedData,
       pagination: {
         actualPage: page,
-        actualPerPage: perPage,
-        lastPage: Math.ceil(filteredMaterials.length / perPage),
+        actualPageSize: pageSize,
+        lastPage: Math.ceil(filteredMaterials.length / pageSize),
       },
     };
   }

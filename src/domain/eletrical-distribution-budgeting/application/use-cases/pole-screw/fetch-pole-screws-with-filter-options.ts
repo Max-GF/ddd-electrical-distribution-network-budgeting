@@ -12,7 +12,7 @@ interface FetchWithFilterPoleScrewUseCaseRequest {
   maxLengthInMM?: number;
 
   page?: number;
-  perPage?: number;
+  pageSize?: number;
 }
 
 type FetchWithFilterPoleScrewUseCaseResponse = Either<
@@ -33,7 +33,7 @@ export class FetchWithFilterPoleScrewUseCase {
     minLengthInMM,
     maxLengthInMM,
     page,
-    perPage,
+    pageSize,
   }: FetchWithFilterPoleScrewUseCaseRequest): Promise<FetchWithFilterPoleScrewUseCaseResponse> {
     const { poleScrews, pagination } =
       await this.poleScrewsRepository.fetchWithFilter(
@@ -45,7 +45,7 @@ export class FetchWithFilterPoleScrewUseCase {
         },
         {
           page: page ?? 1,
-          perPage: perPage ?? 40,
+          pageSize: pageSize ?? 40,
         },
       );
     return right({

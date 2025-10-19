@@ -43,7 +43,7 @@ export class InMemoryUtilityPolesRepository implements UtilityPolesRepository {
     utilityPoles: UtilityPole[];
     pagination: PaginationResponseParams;
   }> {
-    const { page, perPage } = paginationParams;
+    const { page, pageSize } = paginationParams;
     const {
       codes,
       description,
@@ -72,15 +72,15 @@ export class InMemoryUtilityPolesRepository implements UtilityPolesRepository {
       return true;
     });
     const handedData = filteredUtilityPoles
-      .slice((page - 1) * perPage, page * perPage)
+      .slice((page - 1) * pageSize, page * pageSize)
       .sort((a, b) => a.code - b.code);
 
     return {
       utilityPoles: handedData,
       pagination: {
         actualPage: page,
-        actualPerPage: perPage,
-        lastPage: Math.ceil(filteredUtilityPoles.length / perPage),
+        actualPageSize: pageSize,
+        lastPage: Math.ceil(filteredUtilityPoles.length / pageSize),
       },
     };
   }

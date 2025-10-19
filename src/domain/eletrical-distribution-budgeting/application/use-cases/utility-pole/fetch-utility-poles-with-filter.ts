@@ -13,7 +13,7 @@ interface FetchWithFilterUtilityPoleUseCaseRequest {
   minimumCountForLowVoltageLevels?: number;
 
   page?: number;
-  perPage?: number;
+  pageSize?: number;
 }
 
 type FetchWithFilterUtilityPoleUseCaseResponse = Either<
@@ -34,7 +34,7 @@ export class FetchWithFilterUtilityPoleUseCase {
     minimumCountForLowVoltageLevels,
     minimumCountForMediumVoltageLevels,
     page,
-    perPage,
+    pageSize,
   }: FetchWithFilterUtilityPoleUseCaseRequest): Promise<FetchWithFilterUtilityPoleUseCaseResponse> {
     const { utilityPoles, pagination } =
       await this.utilityPolesRepository.fetchWithFilter(
@@ -46,7 +46,7 @@ export class FetchWithFilterUtilityPoleUseCase {
         },
         {
           page: page ?? 1,
-          perPage: perPage ?? 40,
+          pageSize: pageSize ?? 40,
         },
       );
     return right({

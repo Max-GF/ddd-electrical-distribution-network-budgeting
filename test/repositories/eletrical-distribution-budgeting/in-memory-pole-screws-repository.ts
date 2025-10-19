@@ -42,7 +42,7 @@ export class InMemoryPoleScrewsRepository implements PoleScrewsRepository {
     poleScrews: PoleScrew[];
     pagination: PaginationResponseParams;
   }> {
-    const { page = 1, perPage = 10 } = paginationParams;
+    const { page = 1, pageSize = 10 } = paginationParams;
     const { description, codes, maxLengthInMM, minLengthInMM } = filterOptions;
     const filteredPoleScrews = this.items.filter((poleScrew) => {
       if (description && !poleScrew.description.includes(description)) {
@@ -60,15 +60,15 @@ export class InMemoryPoleScrewsRepository implements PoleScrewsRepository {
       return true;
     });
     const handedData = filteredPoleScrews
-      .slice((page - 1) * perPage, page * perPage)
+      .slice((page - 1) * pageSize, page * pageSize)
       .sort((a, b) => a.code - b.code);
 
     return {
       poleScrews: handedData,
       pagination: {
         actualPage: page,
-        actualPerPage: perPage,
-        lastPage: Math.ceil(filteredPoleScrews.length / perPage),
+        actualPageSize: pageSize,
+        lastPage: Math.ceil(filteredPoleScrews.length / pageSize),
       },
     };
   }

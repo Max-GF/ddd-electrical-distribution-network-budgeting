@@ -57,7 +57,7 @@ describe("Fetch cables with options", () => {
       minSectionAreaInMM: 200,
       maxSectionAreaInMM: 315,
     });
-    const result6 = await sut.execute({ tension: "LOW", perPage: 80 });
+    const result6 = await sut.execute({ tension: "LOW", pageSize: 80 });
 
     expect(result1.isRight()).toBeTruthy();
     if (result1.isRight()) {

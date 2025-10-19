@@ -44,7 +44,7 @@ export class InMemoryCableConnectorsRepository
     cableConnectors: CableConnector[];
     pagination: PaginationResponseParams;
   }> {
-    const { page, perPage } = paginationParams;
+    const { page, pageSize } = paginationParams;
     const {
       codes,
       description,
@@ -77,14 +77,14 @@ export class InMemoryCableConnectorsRepository
     });
 
     const handedData = filteredCableConnectors
-      .slice((page - 1) * perPage, page * perPage)
+      .slice((page - 1) * pageSize, page * pageSize)
       .sort((a, b) => a.code - b.code);
     return {
       cableConnectors: handedData,
       pagination: {
         actualPage: page,
-        actualPerPage: perPage,
-        lastPage: Math.ceil(filteredCableConnectors.length / perPage),
+        actualPageSize: pageSize,
+        lastPage: Math.ceil(filteredCableConnectors.length / pageSize),
       },
     };
   }

@@ -1,10 +1,10 @@
 export interface PaginationParams {
   page: number;
-  perPage: number;
+  pageSize: number;
 }
 
 export interface PaginationResponseParams {
   actualPage: number;
-  actualPerPage: number;
+  actualPageSize: number;
   lastPage: number;
 }
