@@ -13,25 +13,27 @@ export class InMemoryGroupsRepository implements GroupsRepository {
     this.items.push(group);
     await this.groupItemsRepository.createMany(items);
   }
-  async save(group: Group): Promise<void> {
-    const groupToSaveIndex = this.items.findIndex(
-      (item) => item.id.toString() === group.id.toString(),
-    );
-    if (groupToSaveIndex >= 0) {
-      this.items[groupToSaveIndex] = group;
+  async updateGroupAndItems(
+    group: Group,
+    itemsToCreate: GroupItem[],
+    itemsToEdit: GroupItem[],
+  ): Promise<void> {
+    const groupIndex = this.items.findIndex((item) => item.id === group.id);
+
+    if (groupIndex >= 0) {
+      this.items[groupIndex] = group;
+      await this.groupItemsRepository.createMany(itemsToCreate);
+      await this.groupItemsRepository.updateMany(itemsToEdit);
     }
   }
   async findById(id: string): Promise<Group | null> {
-    const foundGroup = this.items.find(
+    const foundedGroup = this.items.find(
       (item) => item.id.toString() === id.toString(),
     );
-    return foundGroup ?? null;
+    return foundedGroup ?? null;
   }
   async findByName(name: string): Promise<Group | null> {
-    const foundGroup = this.items.find((item) => item.name === name);
-    return foundGroup ?? null;
-  }
-  async findByNames(names: string[]): Promise<Group[]> {
-    return this.items.filter((item) => names.includes(item.name));
+    const foundedGroup = this.items.find((item) => item.name === name);
+    return foundedGroup ?? null;
   }
 }

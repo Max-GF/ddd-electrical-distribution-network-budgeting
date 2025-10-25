@@ -87,7 +87,6 @@ describe("Create Group", () => {
       inMemoryGroupItemsRepository.items.forEach((item) => {
         expect(item).toBeInstanceOf(GroupItem);
       });
-      console.dir(inMemoryGroupItemsRepository.items, { depth: null });
       expect(inMemoryGroupItemsRepository.items[0]).toEqual(
         expect.objectContaining({
           props: expect.objectContaining({
@@ -121,6 +120,108 @@ describe("Create Group", () => {
             addByPhase: 3,
           }),
         }),
+      );
+    }
+  });
+  it("should not be able to create a group with negative value for context item", async () => {
+    await inMemoryMaterialsRepository.createMany([
+      makeMaterial(
+        {
+          code: 10000,
+          description: "SOME TEST MATERIAL",
+        },
+        new UniqueEntityID("some-test-material-id"),
+      ),
+      makeMaterial(
+        {
+          code: 10001,
+          description: "SOME TEST MATERIAL 2",
+        },
+        new UniqueEntityID("some-test-material-id-2"),
+      ),
+    ]);
+
+    expect(inMemoryGroupsRepository.items).toHaveLength(0);
+    const result1 = await sut.execute({
+      name: "Some Group",
+      description: "Some Group Description",
+      tension: "low",
+      items: [
+        {
+          type: "material",
+          materialId: "some-test-material-id",
+          quantity: 10,
+          description: "Material destinated to testing",
+        },
+        {
+          type: "material",
+          materialId: "some-test-material-id-2",
+          quantity: 5,
+          description: "Material destinated to testing 2",
+        },
+        {
+          type: "poleScrew",
+          quantity: 5,
+          lengthAdd: 15,
+          description: "Material destinated to testing 3",
+        },
+        {
+          type: "cableConnector",
+          quantity: 5,
+          localCableSectionInMM: -10,
+          addByPhase: 3,
+          description: "Material destinated to testing 4",
+        },
+      ],
+    });
+
+    expect(inMemoryGroupsRepository.items).toHaveLength(0);
+    expect(result1.isLeft()).toBeTruthy();
+    if (result1.isLeft()) {
+      expect(result1.value).toBeInstanceOf(NotAllowedError);
+      expect(result1.value.message).toBe(
+        'Item of type "cableConnector" must have a positive value for "localCableSectionInMM".',
+      );
+    }
+    const result2 = await sut.execute({
+      name: "Some Group",
+      description: "Some Group Description",
+      tension: "low",
+      items: [
+        {
+          type: "material",
+          materialId: "some-test-material-id",
+          quantity: 10,
+          description: "Material destinated to testing",
+        },
+        {
+          type: "material",
+          materialId: "some-test-material-id-2",
+          quantity: 5,
+          description: "Material destinated to testing 2",
+        },
+        {
+          type: "poleScrew",
+          quantity: 5,
+          lengthAdd: -15,
+          description: "Material destinated to testing 3",
+        },
+        {
+          type: "cableConnector",
+          quantity: 5,
+          localCableSectionInMM: 10,
+          addByPhase: 3,
+          description: "Material destinated to testing 4",
+        },
+      ],
+    });
+
+    expect(inMemoryGroupsRepository.items).toHaveLength(0);
+    expect(result2.isLeft()).toBeTruthy();
+    if (result2.isLeft()) {
+      expect(result2.value).toBeInstanceOf(NotAllowedError);
+      expect(result2.value.message).toBe(
+        'Item of type "poleScrew" must have a positive value for "lengthAdd".',
       );
     }
   });

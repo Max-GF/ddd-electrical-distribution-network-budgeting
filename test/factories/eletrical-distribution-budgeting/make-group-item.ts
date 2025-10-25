@@ -54,4 +54,5 @@ export function makeGroupItem(
       id,
     );
   }
+  throw new Error("Invalid group item type");
 }

@@ -23,17 +23,17 @@ interface BaseGroupItemRequest {
   description?: string;
 }
 
-interface GroupMaterialRequest extends BaseGroupItemRequest {
+export interface GroupMaterialRequest extends BaseGroupItemRequest {
   type: "material";
   materialId: string; // Vem como string do frontend
 }
 
-interface GroupPoleScrewRequest extends BaseGroupItemRequest {
+export interface GroupPoleScrewRequest extends BaseGroupItemRequest {
   type: "poleScrew";
   lengthAdd: number;
 }
 
-interface GroupCableConnectorRequest extends BaseGroupItemRequest {
+export interface GroupCableConnectorRequest extends BaseGroupItemRequest {
   type: "cableConnector";
   localCableSectionInMM: number;
 }
@@ -89,6 +89,13 @@ export class CreateGroupUseCase {
     const materialValidation = await this.validateMaterials(materials);
     if (materialValidation.isLeft()) {
       return left(materialValidation.value);
+    }
+    const contextItemsValidation = this.validateContextItems([
+      ...poleScrews,
+      ...cableConnectors,
+    ]);
+    if (contextItemsValidation.isLeft()) {
+      return left(contextItemsValidation.value);
     }
 
     // Criar o grupo
@@ -159,6 +166,25 @@ export class CreateGroupUseCase {
       );
     }
 
+    return right(undefined);
+  }
+
+  private validateContextItems(
+    items: (GroupPoleScrewRequest | GroupCableConnectorRequest)[],
+  ): Either<NotAllowedError, undefined> {
+    if (items.length === 0) return right(undefined);
+
+    for (const item of items) {
+      const itemKeyCheck =
+        item.type === "poleScrew" ? "lengthAdd" : "localCableSectionInMM";
+      if (item[itemKeyCheck] <= 0) {
+        return left(
+          new NotAllowedError(
+            `Item of type "${item.type}" must have a positive value for "${itemKeyCheck}".`,
+          ),
+        );
+      }
+    }
     return right(undefined);
   }
 

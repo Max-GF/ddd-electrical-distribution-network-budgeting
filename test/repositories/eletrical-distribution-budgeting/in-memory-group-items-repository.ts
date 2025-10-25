@@ -6,6 +6,14 @@ export class InMemoryGroupItemsRepository implements GroupItemsRepository {
   async createMany(groupitems: GroupItem[]): Promise<void> {
     this.items.push(...groupitems);
   }
+  async updateMany(groupitems: GroupItem[]): Promise<void> {
+    groupitems.forEach((groupitem) => {
+      const index = this.items.findIndex((item) => item.id === groupitem.id);
+      if (index >= 0) {
+        this.items[index] = groupitem;
+      }
+    });
+  }
   async findById(id: string): Promise<GroupItem | null> {
     const foundGroupItem = this.items.find(
       (item) => item.id.toString() === id.toString(),
