@@ -2,6 +2,7 @@ import { UniqueEntityID } from "src/core/entities/unique-entity-id";
 import { AlreadyRegisteredError } from "src/core/errors/generics/already-registered-error";
 import { NotAllowedError } from "src/core/errors/generics/not-allowed-error";
 import { ResourceNotFoundError } from "src/core/errors/generics/resource-not-found-error";
+import { TensionLevel } from "src/domain/eletrical-distribution-budgeting/enterprise/entities/value-objects/tension-level";
 import { makeGroup } from "test/factories/eletrical-distribution-budgeting/make-group";
 import { makeGroupItem } from "test/factories/eletrical-distribution-budgeting/make-group-item";
 import { makeMaterial } from "test/factories/eletrical-distribution-budgeting/make-material";
@@ -34,6 +35,7 @@ describe("Edit Group", () => {
     const group = makeGroup({
       name: "OLD GROUP",
       description: "old description",
+      tension: TensionLevel.create("MEDIUM"),
     });
     await inMemoryGroupsRepository.createMany([group]);
 
@@ -60,7 +62,7 @@ describe("Edit Group", () => {
       groupToEditId: group.id.toString(),
       name: "UPDATED GROUP",
       description: "updated description",
-      tension: "high",
+      tension: "low",
       items: [
         {
           type: "material",
@@ -76,21 +78,21 @@ describe("Edit Group", () => {
         },
       ],
     });
-
+    console.log(result);
     expect(result.isRight()).toBeTruthy();
     if (result.isRight()) {
       expect(inMemoryGroupsRepository.items[0].name).toBe("UPDATED GROUP");
       expect(inMemoryGroupsRepository.items[0].description).toBe(
         "updated description",
       );
-      expect(inMemoryGroupsRepository.items[0].tension.value).toBe("HIGH");
+      expect(inMemoryGroupsRepository.items[0].tension.value).toBe("LOW");
 
       // Check items were updated correctly
       const updatedItems = inMemoryGroupItemsRepository.items.filter(
         (item) => item.groupId.toString() === group.id.toString(),
       );
 
-      expect(updatedItems).toHaveLength(2);
+      expect(updatedItems).toHaveLength(3); // One existing updated + one new added
       expect(updatedItems[0]).toEqual(
         expect.objectContaining({
           props: expect.objectContaining({
@@ -101,6 +103,14 @@ describe("Edit Group", () => {
         }),
       );
       expect(updatedItems[1]).toEqual(
+        expect.objectContaining({
+          props: expect.objectContaining({
+            type: "poleScrew",
+            lengthAdd: 10,
+          }),
+        }),
+      );
+      expect(updatedItems[2]).toEqual(
         expect.objectContaining({
           props: expect.objectContaining({
             type: "cableConnector",

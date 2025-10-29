@@ -132,19 +132,23 @@ export class EditGroupUseCase {
         cableConnectors,
       );
 
-      if (itemsToEdit.length !== actualGroupItems.length) {
-        const missingItems = itemsToEdit.filter(
-          (item) => !actualGroupItems.some((edited) => edited.id === item.id),
+      const missingItems = itemsToEdit.filter(
+        (item) =>
+          !actualGroupItems.some(
+            (edited) => edited.id.toString() === item.id.toString(),
+          ),
+      );
+      if (missingItems.length > 0) {
+        console.log(missingItems);
+        console.log(actualGroupItems);
+
+        return left(
+          new NotAllowedError(
+            `The following items do not belong to the given group and cannot be edited: ${missingItems
+              .map((item) => item.id.toString())
+              .join(", ")}.`,
+          ),
         );
-        if (missingItems.length > 0) {
-          return left(
-            new NotAllowedError(
-              `The following items do not belong to the given group and cannot be edited: ${missingItems
-                .map((item) => item.id.toString())
-                .join(", ")}.`,
-            ),
-          );
-        }
       }
       hasToEdit.items = true;
       newItems = newGroupItems;

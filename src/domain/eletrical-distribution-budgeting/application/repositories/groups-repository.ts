@@ -12,9 +12,13 @@ export abstract class GroupsRepository {
   abstract createMany(groups: Group[]): Promise<void>;
   abstract findById(id: string): Promise<Group | null>;
   abstract findByName(name: string): Promise<Group | null>;
+  abstract findByNames(names: string[]): Promise<Group[]>;
   abstract createGroupWithItems(
     group: Group,
     items: GroupItem[],
+  ): Promise<void>;
+  abstract createBulkGroupsWithItems(
+    groupsWithItems: { group: Group; items: GroupItem[] }[],
   ): Promise<void>;
   abstract updateGroupAndItems(
     group: Group,

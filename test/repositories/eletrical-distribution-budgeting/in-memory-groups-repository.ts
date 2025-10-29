@@ -6,6 +6,7 @@ import { InMemoryGroupItemsRepository } from "./in-memory-group-items-repository
 export class InMemoryGroupsRepository implements GroupsRepository {
   public items: Group[] = [];
   constructor(private groupItemsRepository: InMemoryGroupItemsRepository) {}
+
   async createMany(groups: Group[]): Promise<void> {
     this.items.push(...groups);
   }
@@ -35,5 +36,22 @@ export class InMemoryGroupsRepository implements GroupsRepository {
   async findByName(name: string): Promise<Group | null> {
     const foundedGroup = this.items.find((item) => item.name === name);
     return foundedGroup ?? null;
+  }
+  async findByNames(names: string[]): Promise<Group[]> {
+    return this.items.filter((item) => names.includes(item.name));
+  }
+  async createBulkGroupsWithItems(
+    groupsWithItems: { group: Group; items: GroupItem[] }[],
+  ): Promise<void> {
+    const { groups, items } = groupsWithItems.reduce(
+      (acc, groupWithItems) => {
+        acc.groups.push(groupWithItems.group);
+        acc.items.push(...groupWithItems.items);
+        return acc;
+      },
+      { groups: [] as Group[], items: [] as GroupItem[] },
+    );
+    this.items.push(...groups);
+    await this.groupItemsRepository.createMany(items);
   }
 }
