@@ -90,7 +90,6 @@ describe("Fetch cable connectors with options", () => {
     }
     expect(result4.isRight()).toBeTruthy();
     if (result4.isRight()) {
-      console.log(result4.value.pagination);
       expect(result4.value.cableConnectors).toHaveLength(40);
       expect(result4.value.pagination.lastPage).toEqual(3);
     }

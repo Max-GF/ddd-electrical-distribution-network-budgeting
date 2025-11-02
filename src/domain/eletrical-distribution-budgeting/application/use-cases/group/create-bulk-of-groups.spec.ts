@@ -17,7 +17,9 @@ let sut: CreateBulkOfGroupUseCase;
 describe("Create Bulk Of Group", () => {
   beforeEach(() => {
     inMemoryMaterialsRepository = new InMemoryMaterialsRepository();
-    inMemoryGroupItemsRepository = new InMemoryGroupItemsRepository();
+    inMemoryGroupItemsRepository = new InMemoryGroupItemsRepository(
+      inMemoryMaterialsRepository,
+    );
     inMemoryGroupsRepository = new InMemoryGroupsRepository(
       inMemoryGroupItemsRepository,
     );

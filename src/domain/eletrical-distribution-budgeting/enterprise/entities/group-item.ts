@@ -107,12 +107,28 @@ export class GroupItem<
   isMaterial(): this is GroupItem<GroupMaterialProps> {
     return this.props.type === "material";
   }
+  get materialId(): UniqueEntityID {
+    if (this.isMaterial()) {
+      return this.props.materialId;
+    }
+    throw new Error("This GroupItem is not of type 'material'");
+  }
 
   isPoleScrew(): this is GroupItem<GroupPoleScrewProps> {
     return this.props.type === "poleScrew";
   }
+  get lengthAdd(): number | undefined {
+    if (this.isPoleScrew()) {
+      return this.props.lengthAdd;
+    }
+  }
 
   isCableConnector(): this is GroupItem<GroupCableConnectorProps> {
     return this.props.type === "cableConnector";
+  }
+  get localCableSectionInMM(): number | undefined {
+    if (this.isCableConnector()) {
+      return this.props.localCableSectionInMM;
+    }
   }
 }

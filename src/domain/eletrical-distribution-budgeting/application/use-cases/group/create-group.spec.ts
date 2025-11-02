@@ -17,7 +17,9 @@ let sut: CreateGroupUseCase;
 describe("Create Group", () => {
   beforeEach(() => {
     inMemoryMaterialsRepository = new InMemoryMaterialsRepository();
-    inMemoryGroupItemsRepository = new InMemoryGroupItemsRepository();
+    inMemoryGroupItemsRepository = new InMemoryGroupItemsRepository(
+      inMemoryMaterialsRepository,
+    );
     inMemoryGroupsRepository = new InMemoryGroupsRepository(
       inMemoryGroupItemsRepository,
     );

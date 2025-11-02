@@ -139,9 +139,6 @@ export class EditGroupUseCase {
           ),
       );
       if (missingItems.length > 0) {
-        console.log(missingItems);
-        console.log(actualGroupItems);
-
         return left(
           new NotAllowedError(
             `The following items do not belong to the given group and cannot be edited: ${missingItems

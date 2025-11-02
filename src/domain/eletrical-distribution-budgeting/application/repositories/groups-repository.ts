@@ -1,11 +1,16 @@
+import {
+  PaginationParams,
+  PaginationResponseParams,
+} from "src/core/repositories/pagination-params";
 import { Group } from "../../enterprise/entities/group";
 import { GroupItem } from "../../enterprise/entities/group-item";
 import { TensionLevelEntries } from "../../enterprise/entities/value-objects/tension-level";
+import { GroupWithDetailedItems } from "../use-cases/group/fetch-groups-with-filter-options";
 
 export interface FetchGroupsFilterOptions {
-  codes?: number[];
-  description?: string;
+  name?: string;
   tension?: TensionLevelEntries;
+  description?: string;
 }
 
 export abstract class GroupsRepository {
@@ -25,4 +30,12 @@ export abstract class GroupsRepository {
     itemsToCreate: GroupItem[],
     itemsToEdit: GroupItem[],
   ): Promise<void>;
+
+  abstract fetchGroupWithDetailedItems(
+    filter: FetchGroupsFilterOptions,
+    pagination: PaginationParams,
+  ): Promise<{
+    groupWithDetailedItems: GroupWithDetailedItems[];
+    pagination: PaginationResponseParams;
+  }>;
 }

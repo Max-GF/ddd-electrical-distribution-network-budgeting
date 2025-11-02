@@ -19,7 +19,9 @@ let sut: EditGroupUseCase;
 describe("Edit Group", () => {
   beforeEach(() => {
     inMemoryMaterialsRepository = new InMemoryMaterialsRepository();
-    inMemoryGroupItemsRepository = new InMemoryGroupItemsRepository();
+    inMemoryGroupItemsRepository = new InMemoryGroupItemsRepository(
+      inMemoryMaterialsRepository,
+    );
     inMemoryGroupsRepository = new InMemoryGroupsRepository(
       inMemoryGroupItemsRepository,
     );
@@ -78,7 +80,6 @@ describe("Edit Group", () => {
         },
       ],
     });
-    console.log(result);
     expect(result.isRight()).toBeTruthy();
     if (result.isRight()) {
       expect(inMemoryGroupsRepository.items[0].name).toBe("UPDATED GROUP");

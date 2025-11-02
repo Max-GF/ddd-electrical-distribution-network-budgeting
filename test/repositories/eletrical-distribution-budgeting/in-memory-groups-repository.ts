@@ -1,4 +1,12 @@
-import { GroupsRepository } from "src/domain/eletrical-distribution-budgeting/application/repositories/groups-repository";
+import {
+  PaginationParams,
+  PaginationResponseParams,
+} from "src/core/repositories/pagination-params";
+import {
+  FetchGroupsFilterOptions,
+  GroupsRepository,
+} from "src/domain/eletrical-distribution-budgeting/application/repositories/groups-repository";
+import { GroupWithDetailedItems } from "src/domain/eletrical-distribution-budgeting/application/use-cases/group/fetch-groups-with-filter-options";
 import { Group } from "src/domain/eletrical-distribution-budgeting/enterprise/entities/group";
 import { GroupItem } from "src/domain/eletrical-distribution-budgeting/enterprise/entities/group-item";
 import { InMemoryGroupItemsRepository } from "./in-memory-group-items-repository";
@@ -53,5 +61,58 @@ export class InMemoryGroupsRepository implements GroupsRepository {
     );
     this.items.push(...groups);
     await this.groupItemsRepository.createMany(items);
+  }
+  async fetchGroupWithDetailedItems(
+    filter: FetchGroupsFilterOptions,
+    pagination: PaginationParams,
+  ): Promise<{
+    groupWithDetailedItems: GroupWithDetailedItems[];
+    pagination: PaginationResponseParams;
+  }> {
+    const { name, description, tension } = filter;
+    const { page, pageSize } = pagination;
+
+    const filteredGroups = this.items.filter((group) => {
+      if (
+        (name && !group.name.toLowerCase().includes(name.toLowerCase())) ||
+        (description &&
+          (!group.description ||
+            !group.description
+              .toLowerCase()
+              .includes(description.toLowerCase()))) ||
+        (tension && group.tension.value !== tension)
+      ) {
+        return false;
+      }
+      return true;
+    });
+
+    const paginatedGroups = filteredGroups.slice(
+      (page - 1) * pageSize,
+      page * pageSize,
+    );
+    const groupsItems =
+      await this.groupItemsRepository.findByManyGroupsIdsWithDetails(
+        paginatedGroups.map((group) => group.id.toString()),
+      );
+
+    const groupWithDetailedItems = paginatedGroups.map((group) => {
+      const detailedItems = groupsItems.filter(
+        (item) => item.groupId.toString() === group.id.toString(),
+      );
+      return {
+        group,
+        itemsWithDetails: detailedItems,
+      };
+    });
+
+    return {
+      groupWithDetailedItems,
+      pagination: {
+        actualPage: page,
+        actualPageSize: groupWithDetailedItems.length,
+        lastPage: Math.ceil(filteredGroups.length / pageSize),
+      },
+    };
   }
 }
