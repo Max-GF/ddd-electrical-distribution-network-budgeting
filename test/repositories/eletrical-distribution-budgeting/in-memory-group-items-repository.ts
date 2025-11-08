@@ -122,7 +122,6 @@ export class InMemoryGroupItemsRepository implements GroupItemsRepository {
         if (item.isMaterial()) {
           const material = materialsMap.get(item.materialId.toString());
           if (!material) {
-            console.error();
             throw new Error(
               `Material with ID ${item.id.toString()} not found for GroupItem ${item.id.toString()}`,
             );

@@ -131,12 +131,11 @@ export class EditGroupUseCase {
         poleScrews,
         cableConnectors,
       );
-
+      const actualGroupItemsIdsSet = new Set(
+        actualGroupItems.map((item) => item.id.toString()),
+      );
       const missingItems = itemsToEdit.filter(
-        (item) =>
-          !actualGroupItems.some(
-            (edited) => edited.id.toString() === item.id.toString(),
-          ),
+        (item) => !actualGroupItemsIdsSet.has(item.id.toString()),
       );
       if (missingItems.length > 0) {
         return left(

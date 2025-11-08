@@ -84,4 +84,10 @@ export class InMemoryUtilityPolesRepository implements UtilityPolesRepository {
       },
     };
   }
+  async findByIds(ids: string[]): Promise<UtilityPole[]> {
+    const foundUtilityPoles = this.items.filter((item) =>
+      ids.includes(item.id.toString()),
+    );
+    return foundUtilityPoles;
+  }
 }

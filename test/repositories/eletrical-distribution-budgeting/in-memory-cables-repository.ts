@@ -75,4 +75,10 @@ export class InMemoryCablesRepository implements CablesRepository {
       },
     };
   }
+  async findByIds(ids: string[]): Promise<Cable[]> {
+    const foundCables = this.items.filter((item) =>
+      ids.includes(item.id.toString()),
+    );
+    return foundCables;
+  }
 }
