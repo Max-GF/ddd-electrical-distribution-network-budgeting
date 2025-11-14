@@ -13,6 +13,7 @@ export abstract class GroupItemsRepository {
   abstract updateMany(groupitems: GroupItem[]): Promise<void>;
   abstract findById(id: string): Promise<GroupItem | null>;
   abstract findByGroupId(groupId: string): Promise<GroupItem[]>;
+  abstract findByManyGroupsIds(groupsIds: string[]): Promise<GroupItem[]>;
   abstract findByGroupIdWithDetails(
     groupId: string,
   ): Promise<GroupItemWithDetails[]>;

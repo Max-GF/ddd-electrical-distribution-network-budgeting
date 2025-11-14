@@ -17,6 +17,7 @@ export abstract class PoleScrewsRepository {
   abstract findById(id: string): Promise<PoleScrew | null>;
   abstract findByCode(code: number): Promise<PoleScrew | null>;
   abstract findAllCodes(): Promise<number[]>;
+  abstract getAllOrderedByLength(): Promise<PoleScrew[]>;
   abstract fetchWithFilter(
     filterOptions: FetchPoleScrewsFilterOptions,
     paginationParams: PaginationParams,

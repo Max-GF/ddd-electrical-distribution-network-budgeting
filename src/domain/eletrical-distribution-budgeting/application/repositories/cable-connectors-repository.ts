@@ -21,6 +21,7 @@ export abstract class CableConnectorsRepository {
   abstract findById(id: string): Promise<CableConnector | null>;
   abstract findByCode(code: number): Promise<CableConnector | null>;
   abstract findAllCodes(): Promise<number[]>;
+  abstract getAllOrderedByLength(): Promise<CableConnector[]>;
   abstract fetchWithFilter(
     filterOptions: FetchCableConnectorsFilterOptions,
     paginationParams: PaginationParams,

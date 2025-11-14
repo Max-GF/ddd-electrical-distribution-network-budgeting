@@ -16,6 +16,7 @@ export interface FetchGroupsFilterOptions {
 export abstract class GroupsRepository {
   abstract createMany(groups: Group[]): Promise<void>;
   abstract findById(id: string): Promise<Group | null>;
+  abstract findByIds(ids: string[]): Promise<Group[]>;
   abstract findByName(name: string): Promise<Group | null>;
   abstract findByNames(names: string[]): Promise<Group[]>;
   abstract createGroupWithItems(

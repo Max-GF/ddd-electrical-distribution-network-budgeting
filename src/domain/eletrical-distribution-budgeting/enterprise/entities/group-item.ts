@@ -22,6 +22,7 @@ export interface GroupPoleScrewProps extends GroupItemBaseProps {
 export interface GroupCableConnectorProps extends GroupItemBaseProps {
   type: "cableConnector";
   localCableSectionInMM: number;
+  oneSideConnector?: boolean; // Para alças e laços, que consideram apenas uma espessura de cabo
 }
 
 export type GroupItemProps =
@@ -129,6 +130,11 @@ export class GroupItem<
   get localCableSectionInMM(): number | undefined {
     if (this.isCableConnector()) {
       return this.props.localCableSectionInMM;
+    }
+  }
+  get oneSideConnector(): boolean | undefined {
+    if (this.isCableConnector()) {
+      return this.props.oneSideConnector;
     }
   }
 }
