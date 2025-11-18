@@ -401,15 +401,36 @@ export class CreatePointUseCase {
     const lowTensionGroups: PointGroupRequest[] = [];
     const mediumTensionGroups: PointGroupRequest[] = [];
     const groupsIdsToSet = new Set<string>();
+    const groupsLowLevelsSet = new Set<number>();
+    const groupsMediumLevelsSet = new Set<number>();
 
-    pointGroups.forEach((group) => {
+    for (const group of pointGroups) {
       if (group.tensionLevel === "LOW") {
         lowTensionGroups.push(group);
       } else if (group.tensionLevel === "MEDIUM") {
         mediumTensionGroups.push(group);
       }
       groupsIdsToSet.add(group.groupId);
-    });
+      if (group.tensionLevel === "LOW") {
+        if (groupsLowLevelsSet.has(group.level)) {
+          return left(
+            new NotAllowedError(
+              `Duplicate low tension group level ${group.level} found`,
+            ),
+          );
+        }
+        groupsLowLevelsSet.add(group.level);
+      } else if (group.tensionLevel === "MEDIUM") {
+        if (groupsMediumLevelsSet.has(group.level)) {
+          return left(
+            new NotAllowedError(
+              `Duplicate medium tension group level ${group.level} found`,
+            ),
+          );
+        }
+        groupsMediumLevelsSet.add(group.level);
+      }
+    }
     const groupsIdsToSearch = Array.from(groupsIdsToSet);
 
     if (
@@ -454,7 +475,9 @@ export class CreatePointUseCase {
     const groupsItems =
       await this.groupItemsRepository.findByManyGroupsIds(groupsIdsToSearch);
 
-    const result = pointGroups.map((pointGroup) => {
+    const result: ParsedPointGroup[] = [];
+
+    for (const pointGroup of pointGroups) {
       const groupUntiedMaterials: GroupItem<GroupMaterialProps>[] = [];
       const groupCableConnectors: GroupItem<GroupCableConnectorProps>[] = [];
       const groupPoleScrews: GroupItem<GroupPoleScrewProps>[] = [];
@@ -473,20 +496,24 @@ export class CreatePointUseCase {
       });
 
       const respectiveGroup = mapOfFoundedGroupIds.get(pointGroup.groupId);
+
       if (!respectiveGroup) {
-        throw new Error(
-          "Group not found in set of founded groups, which should not happen since we checked before",
+        return left(
+          new ResourceNotFoundError(
+            "Internal error: Group mapping failed. This should not happen.",
+          ),
         );
       }
-      return {
+
+      result.push({
         tensionLevel: pointGroup.tensionLevel,
         level: pointGroup.level,
         group: respectiveGroup,
         untiedMaterials: groupUntiedMaterials,
         cableConnectors: groupCableConnectors,
         poleScrews: groupPoleScrews,
-      };
-    });
+      });
+    }
     return right(result);
   }
 
@@ -511,8 +538,6 @@ export class CreatePointUseCase {
   }): Promise<
     Either<ResourceNotFoundError, { projectMaterials: ProjectMaterial[] }>
   > {
-    // Gerar a lista de materiais do ponto
-
     const pointMaterials: ProjectMaterial[] = [];
 
     // Adiciona os materiais avulsos do ponto (Se houver)
@@ -721,10 +746,17 @@ export class CreatePointUseCase {
       const requiredEntrance = cablesToUse.entranceCable?.cable.sectionAreaInMM;
       const requiredExit = cableConnectorItem.oneSideConnector
         ? 0
-        : cableConnectorItem.lengthAdd ||
+        : cableConnectorItem.localCableSectionInMM ||
           cablesToUse.exitCable?.cable.sectionAreaInMM ||
           0;
 
+      if (requiredExit === 0 && !cableConnectorItem.oneSideConnector) {
+        return left(
+          new NotAllowedError(
+            `Exit cable section is required to calculate cable connector for two-side connectors`,
+          ),
+        );
+      }
       const suitableCableConnector = this.findSuitableCableConnector(
         {
           requiredEntrance,
